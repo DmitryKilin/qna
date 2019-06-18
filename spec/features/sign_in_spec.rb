@@ -8,6 +8,7 @@ feature 'User can sign in', %q{
   # Проглядел все глаза, не пойму почему при использовании конструкции `given` в брайзере выводится,
   # что не верный пароль или пользователь. Оставил закомментчиным.
   # given(:user) { User.create!(email: 'user@test.com', password: '12345678') }
+  #
   background { visit new_user_session_path }
 
   scenario 'Registered user tries to sign in' do

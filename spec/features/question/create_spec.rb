@@ -5,11 +5,11 @@ feature 'User can create a question', %q{
   As an authenticated user
   I'd like to be able to ask the question
 } do
-    # given(:user) { User.create!(email: 'user@test.com', password: '12345678') }
+    given(:user) { User.create!(email: 'user@test.com', password: '12345678') }
 
 
     scenario 'Authenticated user asks a question' do
-      user = User.create!(email: 'user@test.com', password: '12345678')
+      # user = User.create!(email: 'user@test.com', password: '12345678')
 
       sign_in(user)
 
@@ -26,7 +26,7 @@ feature 'User can create a question', %q{
     end
 
     scenario 'Authenticated user asks a question with error' do
-      user = User.create!(email: 'user@test.com', password: '12345678')
+      # user = User.create!(email: 'user@test.com', password: '12345678')
       sign_in(user)
 
       visit questions_path
