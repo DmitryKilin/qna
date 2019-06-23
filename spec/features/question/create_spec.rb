@@ -7,10 +7,7 @@ feature 'User can create a question', %q{
 } do
     given(:user) { User.create!(email: 'user@test.com', password: '12345678') }
 
-
     scenario 'Authenticated user asks a question' do
-      # user = User.create!(email: 'user@test.com', password: '12345678')
-
       sign_in(user)
 
       visit questions_path
@@ -26,7 +23,6 @@ feature 'User can create a question', %q{
     end
 
     scenario 'Authenticated user asks a question with error' do
-      # user = User.create!(email: 'user@test.com', password: '12345678')
       sign_in(user)
 
       visit questions_path
@@ -36,6 +32,7 @@ feature 'User can create a question', %q{
 
       expect(page).to have_content "Title can't be blank"
     end
+
     scenario 'Unauthenticated user tries to asks a question' do
       visit questions_path
       click_on 'Ask question'
@@ -43,4 +40,14 @@ feature 'User can create a question', %q{
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
 end
+
+feature 'User can view the questions list' do
+
+  scenario 'All visitors can view questions list' do
+    visit questions_path
+
+    expect(page).to have_content 'Questions list'
+  end
+end
+
 

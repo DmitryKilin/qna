@@ -5,7 +5,7 @@ feature 'User can sign in', %q{
   I'd like to be able  to sign in
 } do
 
-  # Проглядел все глаза, не пойму почему при использовании конструкции `given` в брайзере выводится,
+  # Проглядел все глаза, не пойму почему при использовании конструкции `given` в браузере выводится,
   # что не верный пароль или пользователь. Оставил закомментчиным.
   # given(:user) { User.create!(email: 'user@test.com', password: '12345678') }
   #
@@ -17,7 +17,6 @@ feature 'User can sign in', %q{
     fill_in('Password', with: '12345678')
     click_on 'Log in'
 
-    # save_and_open_page
     expect(page).to have_content 'Signed in successfully.'
   end
   scenario 'Unregistered user tries to sign in' do
@@ -27,5 +26,4 @@ feature 'User can sign in', %q{
 
     expect(page).to have_content 'Invalid Email or password.'
   end
-
 end

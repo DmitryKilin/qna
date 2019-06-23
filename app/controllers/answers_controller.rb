@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :find_question, only: %i[new create]
 
   def create
@@ -18,7 +19,7 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit( :body )
+    params.require(:answer).permit( :body, :question_id )
   end
 
   def find_question

@@ -2,12 +2,14 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question)}
+
   let(:user) { create(:user) }
+  let(:question) { create(:question)}
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
     before { get :index }
+
     it 'populates an array of all questions' do
       expect(assigns(:questions)).to match_array(questions)
     end
@@ -34,6 +36,7 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     before { get :new }
+
     it 'assigns a new Question into @question' do
       expect(assigns(:question)).to be_a_new(Question)
     end

@@ -3,16 +3,18 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer)}
   let(:question) { create(:question) }
+  let(:user) { create(:user) }
 
+  before { login(user) }
 
   describe 'GET #new' do
-    before {get :new, params: {question_id: question} }
+      before {get :new, params: {question_id: question} }
 
     it 'assigns a new Answer into @answer' do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
 
-    it 'renders new view which represents @question' do
+    it 'renders new view which represents @answer' do
       expect(response).to render_template :new
     end
   end
