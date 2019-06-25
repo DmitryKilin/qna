@@ -3,23 +3,20 @@ class AnswersController < ApplicationController
   before_action :find_question, only: %i[new create]
 
   def create
-    @answer = @question.answers.new(answer_params)
-
-    if @answer.save
-      redirect_to @question
+    unless answer_params[:body].match?(/\S*/)
+      @answer = @question.answers.new(answer_params)
+      @answer.save
+      flash.notice = 'Answer was added!'
     else
-      render :new
+      flash.alert = "Answer can't be blank!"
     end
-  end
-
-  def new
-    @answer = Answer.new
+    redirect_to @question
   end
 
   private
 
   def answer_params
-    params.require(:answer).permit( :body, :question_id )
+    params.require(:answer).permit( :body )
   end
 
   def find_question

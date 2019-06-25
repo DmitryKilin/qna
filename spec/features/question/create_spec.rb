@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-feature 'User can create a question', %q{
+feature 'Пользователь может создавать вопрос.', %q{
   In order to get an answer from a community
   As an authenticated user
   I'd like to be able to ask the question
 } do
-    given(:user) { User.create!(email: 'user@test.com', password: '12345678') }
+    given(:user) { create(:user, email: 'user@test.com', password: '12345678') }
 
     scenario 'Authenticated user asks a question' do
       sign_in(user)
@@ -33,21 +33,12 @@ feature 'User can create a question', %q{
       expect(page).to have_content "Title can't be blank"
     end
 
-    scenario 'Unauthenticated user tries to asks a question' do
+    scenario 'Только аутентифицированный пользователь может создавать вопросы' do
       visit questions_path
       click_on 'Ask question'
 
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
-end
-
-feature 'User can view the questions list' do
-
-  scenario 'All visitors can view questions list' do
-    visit questions_path
-
-    expect(page).to have_content 'Questions list'
-  end
 end
 
 
