@@ -8,7 +8,7 @@ FactoryBot.define do
     body {'MyText'}
 
     trait :with_answers do
-      answers  {create_list(:answer, 5)}
+      answers  {create_list(:answer, 3)}
     end
 
     trait :invalid do
@@ -21,7 +21,7 @@ FactoryBot.define do
     end
 
     trait :with_authorship do
-      association :author, factory: :user
+      user
     end
   end
 end

@@ -34,8 +34,7 @@ feature 'Пользователь может создавать вопрос.', 
     end
 
     scenario 'Только аутентифицированный пользователь может создавать вопросы' do
-      visit questions_path
-      click_on 'Ask question'
+      visit new_question_path
 
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end

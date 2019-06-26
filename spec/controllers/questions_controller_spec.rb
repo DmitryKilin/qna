@@ -4,10 +4,10 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
 
   let(:user) { create(:user) }
-  let(:question) { create(:question)}
+  let(:question) { create(:question, :with_authorship)}
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 3) }
+    let(:questions) { create_list(:question, 3, :with_authorship) }
     before { get :index }
 
     it 'populates an array of all questions' do
@@ -59,32 +59,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'POST #create' do
-    before { login(user) }
-
-    context 'with valid attributes' do
-      it 'saves a new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
-      end
-
-      it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to assigns(:question)
-      end
-    end
-
-    context 'without valid attributes' do
-      it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
-      end
-
-      it 're-render new view' do
-        post :create, params: { question: attributes_for(:question, :invalid) }
-        expect(response).to render_template :new
-      end
-    end
-  end
-
   describe 'PATCH #update' do
     before { login(user) }
 
@@ -125,7 +99,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     before { login(user) }
 
-    let!(:question) { create(:question) }
+    let!(:question) { create(:question, :with_authorship) }
 
     it 'deletes the question' do
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
@@ -134,6 +108,35 @@ RSpec.describe QuestionsController, type: :controller do
     it 'redirects to index view' do
       delete :destroy, params: { id: question }
       expect(response).to redirect_to questions_path
+    end
+
+
+  end
+
+  describe 'POST #create' do
+    before { login(user) }
+    let!(:question) { create(:question, :with_authorship) }
+
+    context 'with valid attributes' do
+      it 'saves a new question in the database' do
+        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+      end
+
+      it 'redirects to show view' do
+        post :create, params: { question: attributes_for(:question) }
+        expect(response).to redirect_to assigns(:question)
+      end
+    end
+
+    context 'without valid attributes' do
+      it 'does not save the question' do
+        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+      end
+
+      it 're-render new view' do
+        post :create, params: { question: attributes_for(:question, :invalid) }
+        expect(response).to render_template :new
+      end
     end
   end
 end
