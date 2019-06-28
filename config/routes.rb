@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # не вопрос и ответ (как происходит в случае вложенных роутов),
   # а один — только вопрос https://guides.rubyonrails.org/routing.html#shallow-nesting
   resources :questions, shallow: true do
-    resources :answers, only: %i[ destroy create ]
+    resources :answers, only: %i[ destroy create show]
   end
 #  You can also specify the :shallow option in the *PARENT* resource,
 #  in which case all of *THE NESTED RESOURCES WILL BE SHALLOW*:

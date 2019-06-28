@@ -6,6 +6,7 @@ FactoryBot.define do
   factory :question do
     title {'MyString'}
     body {'MyText'}
+    user
 
     trait :with_answers do
       answers  {create_list(:answer, 3)}
@@ -19,9 +20,9 @@ FactoryBot.define do
       title
       body {"Question Text"}
     end
-
-    trait :with_authorship do
-      user
-    end
+    #
+    # trait :with_authorship do
+    #   user
+    # end
   end
 end

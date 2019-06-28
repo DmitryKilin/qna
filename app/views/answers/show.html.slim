@@ -1,0 +1,5 @@
+= render 'shared/errors', resource: @answer
+
+p= @answer.body
+
+= link_to 'Delete', answer_path(@answer), method: :delete

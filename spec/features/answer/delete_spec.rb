@@ -1,16 +1,25 @@
 require 'rails_helper'
 
 feature 'Автор может удалить свой ответ, но не может удалить чужой ответ' do
-  given(:answer) {create(:answer, :with_authorship)}
+  given(:answer) {create(:answer)}
+  given(:not_an_author) {create(:user, email: 'not_an_author@test.com', password: '12345678')}
 
-  scenario 'Author tries delete his answer' do
-    user = create(:user, email: 'user@test.com', password: '12345678')
+  scenario 'tries delete his answer' do
+    sign_in(answer.user)
 
-    sign_in(user)
-    visit question_path(answer)
+    visit answer_path(answer)
     click_on 'Delete'
 
     expect(page).to have_content "Answer have been deleted!"
+  end
+
+  scenario 'tries delete some others answer' do
+    sign_in(not_an_author)
+
+    visit answer_path(answer)
+    click_on 'Delete'
+
+    expect(page).to have_content "You can delete yours answers only!"
   end
 
 end

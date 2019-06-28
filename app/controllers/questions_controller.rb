@@ -29,8 +29,13 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path, notice: "Question have been deleted!"
+    if author?
+      @question.delete
+      note = "Question have been deleted!"
+    else
+      note = "You can delete yours questions only!"
+    end
+    redirect_to questions_path, notice:  note
   end
 
   def update
@@ -42,6 +47,10 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def author?
+    @question.user == current_user
+  end
 
   def question_params
     params.require(:question).permit(:title, :body, :user_id)
