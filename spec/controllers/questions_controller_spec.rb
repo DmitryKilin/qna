@@ -120,9 +120,15 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
       end
 
+      before { post :create, params: { question: attributes_for(:question) } }
+
       it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to assigns(:question)
+      end
+
+      it 'Надо бы ещё проверить, что вопрос создался именно с теми атрибутами, которые мы передали. Created question equal to the input' do
+        expect(assigns(:question).body).to eq (question.body)
+        expect(assigns(:question).title).to eq (question.title)
       end
     end
 

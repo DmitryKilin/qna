@@ -2,4 +2,4 @@
 
 p= @answer.body
 
-= link_to 'Delete', answer_path(@answer), method: :delete
+= link_to 'Delete', answer_path(@answer), method: :delete if user_signed_in?

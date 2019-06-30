@@ -29,7 +29,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if author?
+    if current_user.author?(@question)
       @question.delete
       note = "Question have been deleted!"
     else
@@ -47,10 +47,6 @@ class QuestionsController < ApplicationController
   end
 
   private
-
-  def author?
-    @question.user == current_user
-  end
 
   def question_params
     params.require(:question).permit(:title, :body, :user_id)

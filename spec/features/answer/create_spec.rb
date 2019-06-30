@@ -33,6 +33,6 @@ feature 'Пользователь, находясь на странице воп
 
     click_on 'Answer'
 
-    expect(page).to have_content "Answer can't be blank!"
+    expect(page).to have_content "Unable to save answer"
   end
 end

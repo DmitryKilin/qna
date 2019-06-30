@@ -22,4 +22,10 @@ feature 'Автор может удалить свой ответ, но не м�
     expect(page).to have_content "You can delete yours answers only!"
   end
 
+  scenario "Нужно добавить проверку что у неавторизованного даже нет ссылки на удаление. Unauthorised user can't see the delete button." do
+    visit answer_path(answer)
+
+    expect(page).not_to have_content('Delete')
+  end
+
 end

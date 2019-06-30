@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
 
   def destroy
     question = @answer.question
-    if author?
+    if current_user.author?(@answer)
       @answer.delete
       note = "Answer have been deleted!"
     else
@@ -15,30 +15,24 @@ class AnswersController < ApplicationController
   end
 
   def create
-    puts 'PARAMS: ' + answer_params.inspect
-    if answer_params[:body].match?(/\w+/)
-      @answer = @question.answers.new(answer_params)
-      @answer.user_id = current_user.id
-      @answer.save
-      flash.notice = 'Answer was added!'
+    @answer = @question.answers.new answer_params
+    @answer.user = current_user
+
+    if @answer.save
+      redirect_to @answer.question, notice: "Answer was saved"
     else
-      flash.alert = "Answer can't be blank!"
+
+      # render 'questions/show', alert: "Unable to save answer"
+      redirect_to @question, alert: "Unable to save answer"
     end
-    redirect_to @question
   end
 
-  def show
-
-  end
+  def show; end
 
   private
 
   def answer_params
-    params.require(:answer).permit( :body, :user_id)
-  end
-
-  def author?
-    @answer.user == current_user
+    params.require(:answer).permit( :body)
   end
 
   def find_question

@@ -7,4 +7,8 @@ class User < ApplicationRecord
   has_many :answers, inverse_of: :user
   has_many :questions, inverse_of: :user
 
+  def author?(some_instance)
+    some_instance.respond_to?(:user) && some_instance.user_id == self.id
+  end
+
 end

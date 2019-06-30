@@ -5,4 +5,5 @@ RSpec.describe Answer, type: :model do
   it { should belong_to(:user).inverse_of(:answers).required }
 
   it { should validate_presence_of :body}
+  it { should_not allow_value(' ').for(:body)}
 end
