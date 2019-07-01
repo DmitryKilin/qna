@@ -8,6 +8,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     context 'with valid attributes' do
+      let(:question) {create(:question)}
 
       it 'saves a new answer in the database' do
         expect{post :create, params: { question_id: answer.question_id, answer: attributes_for(:answer)  }}.to change(answer.question.answers, :count).by(1)
@@ -15,14 +16,13 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'Отлично, а теперь надо ещё убедиться, что создался ответ именно с теми атрибутами, которые мы передали. saves authored answer with passed attributes' do
         new_answer_attributes = attributes_for(:answer)
-        question = create(:question)
         expect {
           post :create, params: { question_id: question, answer: new_answer_attributes }
         }.to change(question.answers, :count).by(1)
 
         new_answer = question.answers.find_by(new_answer_attributes)
-        expect(new_answer).to be
-        expect user.author?(new_answer)
+        expect(new_answer).not_to be_nil
+        expect(user.author?(new_answer)).to be_truthy
       end
 
       it 'redirects to show question which shows the question and its answers' do
