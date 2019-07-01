@@ -127,8 +127,15 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'Надо бы ещё проверить, что вопрос создался именно с теми атрибутами, которые мы передали. Created question equal to the input' do
-        expect(assigns(:question).body).to eq (question.body)
-        expect(assigns(:question).title).to eq (question.title)
+        new_question_attributes = attributes_for(:question)
+
+        expect {
+          post :create, params: { question: new_question_attributes }
+        }.to change(Question.all, :count).by(1)
+
+        new_question = Question.find_by(new_question_attributes)
+        expect(new_question).to be
+        expect user.author?(new_question)
       end
     end
 

@@ -13,13 +13,20 @@ RSpec.describe AnswersController, type: :controller do
         expect{post :create, params: { question_id: answer.question_id, answer: attributes_for(:answer)  }}.to change(answer.question.answers, :count).by(1)
       end
 
-      before {post :create, params: { question_id: answer.question_id, answer: attributes_for(:answer)  }}
+      it 'Отлично, а теперь надо ещё убедиться, что создался ответ именно с теми атрибутами, которые мы передали. saves authored answer with passed attributes' do
+        new_answer_attributes = attributes_for(:answer)
+        question = create(:question)
+        expect {
+          post :create, params: { question_id: question, answer: new_answer_attributes }
+        }.to change(question.answers, :count).by(1)
 
-      it 'Отлично, а теперь надо ещё убедиться, что создался ответ именно с теми атрибутами, которые мы передали. Created answer equal to the input' do
-        expect(assigns(:answer).body).to eq (answer.body)
+        new_answer = question.answers.find_by(new_answer_attributes)
+        expect(new_answer).to be
+        expect user.author?(new_answer)
       end
 
       it 'redirects to show question which shows the question and its answers' do
+        post :create, params: { question_id: answer.question_id, answer: attributes_for(:answer)}
         expect(response).to redirect_to answer.question
       end
     end

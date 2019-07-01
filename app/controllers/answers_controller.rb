@@ -22,8 +22,8 @@ class AnswersController < ApplicationController
       redirect_to @answer.question, notice: "Answer was saved"
     else
 
-      # render 'questions/show', alert: "Unable to save answer"
-      redirect_to @question, alert: "Unable to save answer"
+      flash.now[:notice] = 'Unable to save answer'
+      render 'questions/show'
     end
   end
 
