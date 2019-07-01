@@ -97,17 +97,28 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { login(question.user) }
+    let!(:question) { create(:question)}
 
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    context 'Authenticated user is the author.' do
+      before { login(question.user) }
+
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index view' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to index view' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
-    end
+    context 'Authenticated user is not the author.' do
+      before { login(user) }
 
+      it "tries delete another's question" do
+        expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
+      end
+    end
 
   end
 
@@ -126,7 +137,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to assigns(:question)
       end
 
-      it 'Надо бы ещё проверить, что вопрос создался именно с теми атрибутами, которые мы передали. Created question equal to the input' do
+      it 'created question attributes are equal the input' do
         post :create, params: { question: attributes_for(:question) }
 
         new_question_attributes = attributes_for(:question)
