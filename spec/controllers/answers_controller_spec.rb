@@ -7,11 +7,21 @@ RSpec.describe AnswersController, type: :controller do
   before { login(user) }
 
   describe 'POST #create' do
+    context 'Unauthenticated user ' do
+      let(:question) {create(:question)}
+      before { sign_out(user) }
+
+      it 'sugested to authenticate.' do
+        post :create, params: { question_id: question, answer: attributes_for(:answer)  }
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
     context 'With valid attributes ' do
       let(:question) {create(:question)}
 
       it 'saves a new answer in the database' do
-        expect{post :create, params: { question_id: answer.question_id, answer: attributes_for(:answer)  }}.to change(answer.question.answers, :count).by(1)
+        expect{post :create, params: { question_id: question, answer: attributes_for(:answer)  }}.to change(question.answers, :count).by(1)
       end
 
       it 'saves authored answer with passed attributes' do
@@ -43,13 +53,37 @@ RSpec.describe AnswersController, type: :controller do
   describe 'GET #show' do
     before { get :show, params: { id: answer} }
 
-    it 'renders show view which represents @answer' do
-      expect(response).to render_template :show
+    context 'Authenticated user ' do
+      it 'renders show view which represents @answer' do
+        expect(response).to render_template :show
+      end
+    end
+
+    context 'Unauthenticated user ' do
+      before { sign_out(user) }
+
+      it 'renders show view which represents @answer' do
+        expect(response).to render_template :show
+      end
     end
   end
 
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer)}
+
+
+    context 'Unauthenticated user '  do
+      before { sign_out(user) }
+
+      it 'deletes the answer' do
+        expect { delete :destroy, params: { id: answer } }.not_to change(Answer, :count)
+      end
+
+      it 'redirects to question show view' do
+        delete :destroy, params: { id: answer }
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
 
     context 'Authenticated user is the author.' do
       before { login(answer.user) }

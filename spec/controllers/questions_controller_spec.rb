@@ -32,31 +32,50 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    context 'Authorised user ' do
+      before { login(user) }
+      before { get :new }
 
-    before { login(user) }
+      it 'assigns a new Question into @question' do
+        expect(assigns(:question)).to be_a_new(Question)
+      end
 
-    before { get :new }
-
-    it 'assigns a new Question into @question' do
-      expect(assigns(:question)).to be_a_new(Question)
+      it 'renders new view which represents @question' do
+        expect(response).to render_template :new
+      end
     end
 
-    it 'renders new view which represents @question' do
-      expect(response).to render_template :new
+    context  'Unauthenticated user ' do
+      before { get :new }
+
+      it 'redirects to authenticate.' do
+        expect(response).to redirect_to new_user_session_path
+      end
     end
   end
 
   describe 'GET #edit' do
-    before { login(user) }
-    before { get :edit, params: { id: question} }
+    context 'Authenticated user ' do
+      before { login(user) }
+      before { get :edit, params: { id: question} }
 
-    it 'assigns the requested question to @question' do
-      expect(assigns(:question)).to eq question
+      it 'assigns the requested question to @question' do
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'renders edit view which represents @question' do
+        expect(response).to render_template :edit
+      end
     end
 
-    it 'renders edit view which represents @question' do
-      expect(response).to render_template :edit
+    context  'Unauthenticated user ' do
+      before { get :edit, params: { id: question} }
+
+      it 'redirects to authenticate.' do
+        expect(response).to redirect_to new_user_session_path
+      end
     end
+
   end
 
   describe 'PATCH #update' do
@@ -94,6 +113,19 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template :edit
       end
     end
+
+    context "Unauthenticated user" do
+      before {sign_out(user)}
+
+      it "can't update the question." do
+        old_question = question
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body'} }
+        question.reload
+
+        expect(question.title).to eq old_question.title
+        expect(question.body).to eq old_question.body
+      end
+    end
   end
 
   describe 'DELETE #destroy' do
@@ -121,16 +153,24 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'Unauthenticated user ' do
-      it 'tries delete a question.' do
+      it 'can not delete the question.' do
         expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
       end
-
     end
   end
 
   describe 'POST #create' do
     before { login(user) }
     let(:question) { create(:question) }
+
+    context 'Unauthenticated user ' do
+      before {sign_out(user)}
+
+      it 'sugested to authenticate.' do
+        post :create, params: { question: attributes_for(:question) }
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
 
     context 'with valid attributes' do
       it 'saves a new question in the database' do
