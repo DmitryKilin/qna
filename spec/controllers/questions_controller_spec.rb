@@ -131,7 +131,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     let!(:question) { create(:question)}
 
-    context 'Authenticated user is the author.' do
+    context 'Authenticated user is the author ' do
       before { login(question.user) }
 
       it 'deletes the question' do
@@ -141,6 +141,11 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirects to index view' do
         delete :destroy, params: { id: question }
         expect(response).to redirect_to questions_path
+      end
+
+      it 'deletes a proper question.' do
+        delete :destroy, params: { id: question }
+        expect(Question.find_by(id: question.id)).to be_nil
       end
     end
 
@@ -184,8 +189,6 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'created question attributes are equal the input' do
-        post :create, params: { question: attributes_for(:question) }
-
         new_question_attributes = attributes_for(:question)
 
         expect {
