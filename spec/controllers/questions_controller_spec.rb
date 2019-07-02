@@ -112,19 +112,25 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    context 'Authenticated user is not the author.' do
+    context 'Authenticated user is not the author ' do
       before { login(user) }
 
-      it "tries delete another's question" do
+      it "tries delete another's question." do
         expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
       end
     end
 
+    context 'Unauthenticated user ' do
+      it 'tries delete a question.' do
+        expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
+      end
+
+    end
   end
 
   describe 'POST #create' do
     before { login(user) }
-    let!(:question) { create(:question) }
+    let(:question) { create(:question) }
 
     context 'with valid attributes' do
       it 'saves a new question in the database' do
@@ -147,8 +153,8 @@ RSpec.describe QuestionsController, type: :controller do
         }.to change(Question, :count).by(1)
 
         new_question = Question.find_by(new_question_attributes)
-        expect(new_question).to be
-        expect user.author?(new_question)
+        expect(new_question).not_to be_nil
+        expect(user).to be_author(new_question)
       end
     end
 

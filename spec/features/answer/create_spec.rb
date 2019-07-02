@@ -17,7 +17,7 @@ feature 'Пользователь, находясь на странице воп
     expect(page).to have_content 'Some new answer'
   end
 
-  scenario 'Только аутентифицированный пользователь может создавать ответы' do
+  scenario 'Only the authenticated user can create answers' do
     visit question_path(question)
 
     click_on 'Answer'
@@ -25,7 +25,7 @@ feature 'Пользователь, находясь на странице воп
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
-  scenario 'User tries to give a impermissible answer' do
+  scenario 'Authenticated user tries to give a impermissible answer' do
     sign_in(user)
 
     visit question_path(question)
@@ -34,5 +34,14 @@ feature 'Пользователь, находясь на странице воп
     click_on 'Answer'
 
     expect(page).to have_content "Unable to save answer"
+  end
+
+  scenario 'Unauthenticated user tries to give a impermissible answer' do
+    visit question_path(question)
+    fill_in(:answer_body, with: ' ')
+
+    click_on 'Answer'
+
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end
