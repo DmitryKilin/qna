@@ -7,13 +7,15 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     context 'Unauthenticated user ' do
       let(:question) {create(:question)}
-      before { sign_out(user) }
+      let(:new_answer_attributes) {attributes_for(:answer)}
 
       it 'sugested to authenticate.' do
-        new_answer_attributes = attributes_for(:answer)
         post :create, params: { question_id: question, answer: new_answer_attributes  }
         expect(response).to redirect_to new_user_session_path
-        expect(question.answers.find_by(new_answer_attributes)).to be_nil
+      end
+
+      it "doesn't change the count of the question answers" do
+        expect{ post :create, params: { question_id: question, answer: new_answer_attributes } }.not_to change(question.answers, :count)
       end
     end
 
@@ -44,27 +46,29 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       before { login(user) }
-      before { post :create, params: { question_id: answer.question, answer: attributes_for(:answer, :invalid) } }
 
       it 'does not change the answer' do
+        post :create, params: { question_id: answer.question, answer: attributes_for(:answer, :invalid) }
         expect {response }.to_not change(Answer, :count)
       end
     end
   end
 
   describe 'GET #show' do
-    before { get :show, params: { id: answer} }
 
     context 'Authenticated user ' do
       before { login(user) }
 
       it 'renders show view which represents @answer' do
+        get :show, params: { id: answer}
         expect(response).to render_template :show
       end
     end
 
     context 'Unauthenticated user ' do
+
       it 'renders show view which represents @answer' do
+        get :show, params: { id: answer}
         expect(response).to render_template :show
       end
     end

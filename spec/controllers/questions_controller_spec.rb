@@ -115,10 +115,12 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context "Unauthenticated user" do
+      before {sign_out(user)}
 
       it "can't update the question." do
-        old_question = question
+        old_question = question.dup
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body'} }
+        question.reload
 
         expect(question.title).to eq old_question.title
         expect(question.body).to eq old_question.body
