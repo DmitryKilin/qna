@@ -115,12 +115,10 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context "Unauthenticated user" do
-      before {sign_out(user)}
 
       it "can't update the question." do
         old_question = question
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body'} }
-        question.reload
 
         expect(question.title).to eq old_question.title
         expect(question.body).to eq old_question.body
@@ -145,7 +143,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'deletes a proper question.' do
         delete :destroy, params: { id: question }
-        expect(Question.find_by(id: question.id)).to be_nil
+        expect(Question.exists?(question.id)).to be_falsey
       end
     end
 
@@ -165,19 +163,21 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { login(user) }
     let(:question) { create(:question) }
 
     context 'Unauthenticated user ' do
-      before {sign_out(user)}
 
       it 'sugested to authenticate.' do
-        post :create, params: { question: attributes_for(:question) }
+        new_question_attributes = attributes_for(:question)
+        post :create, params: { question: new_question_attributes }
         expect(response).to redirect_to new_user_session_path
+        expect(Question.exists?(new_question_attributes)).to be_falsey
       end
     end
 
     context 'with valid attributes' do
+      before { login(user) }
+
       it 'saves a new question in the database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
       end
@@ -202,6 +202,8 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'without valid attributes' do
+      before { login(user) }
+
       it 'does not save the question' do
         expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
       end
