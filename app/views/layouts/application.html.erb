@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Qna</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <%= favicon_link_tag 'favicon.ico' %>
+
+    <title>QnA</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -14,9 +18,16 @@
       <%= render 'shared/nav_user' %>
     </header>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <div class="container justify-content-center mt-3">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
 
-    <%= yield %>
+      <%= yield %>
+    </div>
+
+    <footer class="footer justify-content-center mt-5">
+
+    </footer>
+
   </body>
 </html>
