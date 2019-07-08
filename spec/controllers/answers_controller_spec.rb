@@ -10,12 +10,12 @@ RSpec.describe AnswersController, type: :controller do
       let(:new_answer_attributes) {attributes_for(:answer)}
 
       it 'sugested to authenticate.' do
-        post :create, params: { question_id: question, answer: new_answer_attributes  }
+        post :create, params: {question_id: question, answer: new_answer_attributes  }
         expect(response).to redirect_to new_user_session_path
       end
 
       it "doesn't change the count of the question answers" do
-        expect{ post :create, params: { question_id: question, answer: new_answer_attributes } }.not_to change(question.answers, :count)
+        expect{ post :create, params: {question_id: question, answer: new_answer_attributes } }.not_to change(question.answers, :count)
       end
     end
 
@@ -24,13 +24,13 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'saves a new answer in the database' do
-        expect{post :create, params: { question_id: question, answer: attributes_for(:answer)  }}.to change(question.answers, :count).by(1)
+        expect{post :create, params: {question_id: question, answer: attributes_for(:answer)} ,format: :js}.to change(question.answers, :count).by(1)
       end
 
       it 'saves authored answer with passed attributes' do
         new_answer_attributes = attributes_for(:answer)
         expect {
-          post :create, params: { question_id: question, answer: new_answer_attributes }
+          post :create, params: {question_id: question, answer: new_answer_attributes }
         }.to change(question.answers, :count).by(1)
 
         new_answer = question.answers.find_by(new_answer_attributes)
@@ -39,7 +39,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirects to show question which shows the question and its answers' do
-        post :create, params: { question_id: question.id, answer: attributes_for(:answer)}
+        post :create, params: {question_id: question.id, answer: attributes_for(:answer)}
         expect(response).to redirect_to question
       end
     end
@@ -48,8 +48,13 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'does not change the answer' do
-        post :create, params: { question_id: answer.question, answer: attributes_for(:answer, :invalid) }
-        expect {response }.to_not change(Answer, :count)
+        post :create, params: {question_id: answer.question, answer: attributes_for(:answer, :invalid) }, format: :js
+        expect{response}.to_not change(Answer, :count)
+      end
+
+      it "render 'questions/show' template" do
+        post :create, params: {question_id: answer.question, answer: attributes_for(:answer, :invalid) }, format: :js
+        expect(response).to render_template :create
       end
     end
   end

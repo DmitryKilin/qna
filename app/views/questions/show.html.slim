@@ -1,15 +1,20 @@
-= render 'shared/errors', resource: @question
-= render 'shared/errors', resource: @answer
-
 h1= @question.title
 p= @question.body
 
-= link_to 'Delete', question_path(@question), method: :delete if current_user&.author?(@question)
+= link_to 'Delete', question_path(@question), method: :delete, class: "btn btn-outline-primary" if current_user&.author?(@question)
+br
+br
 
-= render @question.answers
+h2= "Answers: "
+.answers
+  = render @question.answers
 
-= form_with model: [ @question, @answer ], local: true do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Answer'
+h2= "New Answer: "
+.answer-errors
+
+= form_with model: [ @question, @answer ] do |f|
+  .form-group
+    = f.label :body
+    = f.text_area :body, class: "form-control"
+  = f.submit 'Answer', class: "btn btn-outline-primary"
 

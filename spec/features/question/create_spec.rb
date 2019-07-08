@@ -22,7 +22,7 @@ feature 'Пользователь может создавать вопрос.', 
       expect(page).to have_content 'some text'
     end
 
-    scenario 'Authenticated user asks a question with error' do
+    scenario 'Authenticated user asks a question with error', js: true do
       sign_in(user)
 
       visit questions_path

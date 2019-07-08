@@ -3,5 +3,5 @@
 #
 # Examples:
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+#   movies = Movie.c_reate([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
+#   Character.c_reate(name: 'Luke', movie: movies.first)

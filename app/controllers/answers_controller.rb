@@ -15,15 +15,12 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new answer_params
+    @answer = @question.answers.create answer_params
     @answer.user = current_user
 
     if @answer.save
       redirect_to @answer.question, notice: "Answer was saved"
-    else
 
-      flash.now[:notice] = 'Unable to save answer'
-      render 'questions/show'
     end
   end
 
