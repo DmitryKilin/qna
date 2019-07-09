@@ -1,6 +1,7 @@
 <nav class="navbar navbar-dark bg-dark justify-content-start">
   <%= link_to 'Questions and Answers' , root_path, class: "navbar-brand mr-auto" %>
   <% if user_signed_in? %>
+    <%= current_user&.email %>
     <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: "nav-link" %>
   <% else %>
     <%= link_to 'Sign in', new_user_session_path, class: "nav-link" %>

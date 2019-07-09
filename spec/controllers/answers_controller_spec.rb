@@ -121,36 +121,60 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     let!(:answer) {create(:answer)}
 
-    context 'with invalid attributes' do
-      it('does not changes answer attributes') do
-        expect do
+    describe 'Authenticated author ' do
+      before { login(answer.user) }
+
+      context 'with invalid attributes ' do
+        it('can not changes answer attributes') do
+          expect do
+            patch :update, params: {id: answer, answer: attributes_for(:answer, :invalid)}, format: :js
+          end.to_not change(answer, :body)
+        end
+
+        it 'renders update view' do
           patch :update, params: {id: answer, answer: attributes_for(:answer, :invalid)}, format: :js
-        end.to_not change(answer, :body)
+          expect(response).to render_template :update
+        end
       end
 
-      it 'renders update view' do
-        login(answer.user)
+      context 'with valid attributes' do
+        it('changes answer attributes') do
+          patch :update, params: {id: answer, answer: {body: 'new body'}}, format: :js
+          answer.reload
+          expect(answer.body).to eq 'new body'
+        end
 
-        patch :update, params: {id: answer, answer: attributes_for(:answer, :invalid)}, format: :js
-        expect(response).to render_template :update
-      end
-    end
-
-    context 'with valid attributes' do
-      it('changes answer attributes') do
-        login(answer.user)
-        patch :update, params: {id: answer, answer: {body: 'new body'}}, format: :js
-        answer.reload
-        expect(answer.body).to eq 'new body'
-      end
-
-      it 'renders update view' do
-        login(answer.user)
-
-        patch :update, params: {id: answer, answer: {body: 'new body'}}, format: :js
-        expect(response).to render_template :update
+        it 'renders update view' do
+          patch :update, params: {id: answer, answer: {body: 'new body'}}, format: :js
+          expect(response).to render_template :update
+        end
       end
     end
 
+    describe 'Unauthenticated user ' do
+      context 'tries update some answer. ' do
+
+        it "Can't update Answer" do
+          patch :update, params: {id: answer, answer: {body: 'new body'}}, format: :js
+          answer.reload
+          expect(answer.body).not_to eq 'new body'
+        end
+
+      end
+    end
+
+    describe 'Not an author authenticated user. Только автор может отредактировать свой ответ ' do
+      let!(:user) {create(:user)}
+      before {login(user)}
+
+      context 'tries edit some answer. ' do
+        it "doesn't change Answer attributes" do
+          patch :update, params: {id: answer, answer: {body: 'new body'}}, format: :js
+          answer.reload
+          expect(answer.body).not_to eq 'new body'
+        end
+
+      end
+    end
   end
 end

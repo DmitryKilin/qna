@@ -9,12 +9,14 @@ h2= "Answers: "
 .answers
   = render @question.answers
 
-h2= "New Answer: "
-.answer-errors
+- if user_signed_in?
+  h2= "New Answer: "
+  .answer-errors
 
-= form_with model: [ @question, @answer ] do |f|
-  .form-group
-    = f.label :body
-    = f.text_area :body, class: "form-control"
-  = f.submit 'Answer', class: "btn btn-outline-primary"
+
+  = form_with model: [ @question, @answer ] do |f|
+    .form-group
+      = f.label :body
+      = f.text_area :body, class: "form-control"
+    = f.submit 'Answer', class: "btn btn-outline-primary"
 

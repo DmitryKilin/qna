@@ -28,7 +28,7 @@ feature 'Автор может удалить свой вопрос, но не �
     end
   end
 
-  context 'Unauthorise user' do
+  context 'Unauthorised user' do
     scenario " can't see the delete button and delete question." do
       visit question_path(question)
       expect(page).not_to have_link('Delete')
