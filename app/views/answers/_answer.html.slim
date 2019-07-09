@@ -1,1 +1,9 @@
 p= answer.body
+- if user_signed_in?
+  p= link_to 'Edit'
+
+  = form_with model: answer do |f|
+    .form-group
+      = f.label :body
+      = f.text_area :body, class: "form-control"
+    = f.submit 'Save', class: "btn btn-outline-primary"
