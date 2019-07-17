@@ -6,14 +6,6 @@ feature 'Автор может удалить свой ответ, но не м�
 
   context  'Authorised author' do
 
-    scenario 'tries delete his answer' do
-      sign_in(answer.user)
-      visit answer_path(answer)
-
-      click_on 'Delete'
-      expect(page).to have_content "Answer have been deleted!"
-    end
-
     scenario  "can see the delete button and delete answer." do
       sign_in(answer.user)
       visit answer_path(answer)

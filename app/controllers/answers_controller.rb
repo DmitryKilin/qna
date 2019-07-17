@@ -1,33 +1,21 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[new create]
-  before_action :find_answer, only: %i[show destroy]
+  before_action :find_answer, only: %i[show destroy update]
 
   def destroy
-    question = @answer.question
-    if current_user.author?(@answer)
-      @answer.delete
-      note = "Answer have been deleted!"
-    else
-      note = "You can delete yours answers only!"
-    end
-    redirect_to question_path(question), notice:  note
+    @answer.delete if current_user.author?(@answer)
   end
 
   def create
-    @answer = @question.answers.create answer_params
+    @answer = @question.answers.new answer_params
     @answer.user = current_user
-
-    if @answer.save
-      redirect_to @answer.question, notice: "Answer was saved"
-
-    end
+    @answer.save
   end
 
   def show; end
 
   def update
-    @answer = Answer.find(params[:id])
     @answer.update(answer_params) if current_user&.author?(@answer)
     @question = @answer.question
   end

@@ -1,9 +1,16 @@
-p= answer.body
-- if user_signed_in?
-  p= link_to 'Edit', '#', class: 'edit-answer-link', data: {answer_id: answer.id} if current_user&.author?(answer)
+div class='answer-#{answer.id}'
+  p= answer.body
+  = link_to '🌟 Star', '#', class: 'btn btn-outline-secondary'
 
-  = form_with model: answer, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |f|
-    .form-group
-      = f.label :body
-      = f.text_area :body, class: "form-control"
-    = f.submit 'Save', class: "btn btn-outline-primary"
+  - if user_signed_in?
+    p
+      = link_to 'Edit', '#', class: 'edit-answer-link', data: {answer_id: answer.id} if current_user&.author?(answer)
+      = " | "
+      = link_to 'Delete', answer , method: :delete, class: 'delete-answer-link', data: {answer_id: answer.id}, remote: true
+
+
+    = form_with model: answer, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |f|
+      .form-group
+        = f.label :body
+        = f.text_area :body, class: "form-control"
+      = f.submit 'Save', class: "btn btn-outline-primary"

@@ -1,9 +1,10 @@
-h1= @question.title
-p= @question.body
+.answer-errors
+.question-errors
 
-= link_to 'Delete', question_path(@question), method: :delete, class: "btn btn-outline-primary" if current_user&.author?(@question)
-br
-br
+h1= 'Question: '
+
+.question
+  = render 'form'
 
 h2= "Answers: "
 .answers
@@ -11,8 +12,6 @@ h2= "Answers: "
 
 - if user_signed_in?
   h2= "New Answer: "
-  .answer-errors
-
 
   = form_with model: [ @question, @answer ] do |f|
     .form-group

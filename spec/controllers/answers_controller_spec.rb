@@ -30,7 +30,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'saves authored answer with passed attributes' do
         new_answer_attributes = attributes_for(:answer)
         expect {
-          post :create, params: {question_id: question, answer: new_answer_attributes }
+          post :create, params: {question_id: question, answer: new_answer_attributes },format: :js
         }.to change(question.answers, :count).by(1)
 
         new_answer = question.answers.find_by(new_answer_attributes)
@@ -39,8 +39,8 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirects to show question which shows the question and its answers' do
-        post :create, params: {question_id: question.id, answer: attributes_for(:answer)}
-        expect(response).to redirect_to question
+        post :create, params: {question_id: question.id, answer: attributes_for(:answer)},format: :js
+        expect(response).to render_template :create
       end
     end
 
@@ -84,13 +84,13 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'Unauthenticated user '  do
 
-      it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer } }.not_to change(Answer, :count)
+      it 'do not deletes the answer' do
+        expect { delete :destroy, params: { id: answer }, format: :js }.not_to change(Answer, :count)
       end
 
-      it 'redirects to question show view' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to new_user_session_path
+      it 'returns a 401 status' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -99,13 +99,13 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'deletes the answer' do
         question = answer.question
-        expect { delete :destroy, params: { id: answer } }.to change(question.answers, :count).by(-1)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(question.answers, :count).by(-1)
         expect(question.answers.find_by(id: answer.id)).to be_nil
       end
 
-      it 'redirects to question show view' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question_path(answer.question)
+      it 'render the Destroy js' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -113,7 +113,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it "tries delete another's answer" do
-        expect { delete :destroy, params: { id: answer } }.not_to change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js }.not_to change(Answer, :count)
       end
     end
   end

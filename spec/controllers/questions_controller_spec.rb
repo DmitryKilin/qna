@@ -87,24 +87,24 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
         expect(assigns(:question)).to eq question
       end
       it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body'} }
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body'} }, format: :js
         question.reload
 
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
       end
       it 'redirectes to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
         expect(response).to redirect_to question
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
+      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
       }
       it 'does not change the question' do
         question.reload
@@ -114,7 +114,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 're-renders edit view' do
-        expect(response).to render_template :edit
+        expect(response).to render_template :update
       end
     end
 
@@ -139,16 +139,16 @@ RSpec.describe QuestionsController, type: :controller do
       before { login(question.user) }
 
       it 'deletes the question' do
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+        expect { delete :destroy, params: { id: question }, format: :js }.to change(Question, :count).by(-1)
       end
 
       it 'redirects to index view' do
-        delete :destroy, params: { id: question }
+        delete :destroy, params: { id: question }, format: :js
         expect(response).to redirect_to questions_path
       end
 
       it 'deletes a proper question.' do
-        delete :destroy, params: { id: question }
+        delete :destroy, params: { id: question }, format: :js
         expect(Question.exists?(question.id)).to be_falsey
       end
     end
@@ -157,13 +157,13 @@ RSpec.describe QuestionsController, type: :controller do
       before { login(user) }
 
       it "tries delete another's question." do
-        expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
+        expect { delete :destroy, params: { id: question }, format: :js }.not_to change(Question, :count)
       end
     end
 
     context 'Unauthenticated user ' do
       it 'can not delete the question.' do
-        expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
+        expect { delete :destroy, params: { id: question }, format: :js }.not_to change(Question, :count)
       end
     end
   end

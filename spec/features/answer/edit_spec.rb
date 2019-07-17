@@ -8,15 +8,11 @@ feature 'User can edit his answer.' do
       sign_in(answer.user)
       visit question_path(answer.question)
     end
+
     scenario 'edit his answer.', js: true do
-      expect(page).to have_link('Edit')
-    end
-
-    scenario 'edit his answer with errors', js: true do
-
-      click_on 'Edit'
-
       within '.answers' do
+        click_on 'Edit'
+
         fill_in 'Body', with: 'edited answer'
         click_on 'Save'
 
@@ -25,13 +21,30 @@ feature 'User can edit his answer.' do
         expect(page).to_not have_selector 'textarea'
       end
     end
+
+    scenario 'edit his answer with errors', js: true do
+      within '.answers' do
+        click_on 'Edit'
+
+        fill_in 'Body', with: ' '
+        click_on 'Save'
+      end
+
+      within '.answer-errors' do
+        expect(page).to have_content 'error(s) detected:'
+      end
+    end
   end
+
   describe 'Unautheticated user ' do
     before { visit question_path(answer.question) }
 
     scenario "can't see Edit link" do
-      expect(page).not_to have_link('Edit')
+      within '.answers' do
+        expect(page).not_to have_link('Edit')
+      end
     end
+
   end
 
   describe 'Not an author ' do
@@ -42,7 +55,9 @@ feature 'User can edit his answer.' do
     end
 
     scenario "can't see Edit link" do
-      expect(page).not_to have_link('Edit')
+      within '.answers' do
+        expect(page).not_to have_link('Edit')
+      end
     end
   end
 end
