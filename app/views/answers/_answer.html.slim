@@ -4,10 +4,11 @@ div class='answer-#{answer.id}'
       = image_tag( "star.png", height: 40, alt: 'star', id: "img-star" ) if answer.ranked?
       = answer.body
 
-    - if answer.ranked?
-      = link_to 'Unstar', unstar_answer_path(answer), class: 'btn btn-outline-secondary button-star', method: :patch, remote: true
-    - else
-      = link_to '🌟 Star', star_answer_path(answer), class: 'btn btn-outline-secondary button-star', method: :patch, remote: true
+    -if current_user&.author?(@question)
+      - if answer.ranked?
+        = link_to 'Unstar', unstar_answer_path(answer), class: 'btn btn-outline-secondary button-star', method: :patch, remote: true
+      - else
+        = link_to '🌟 Star', star_answer_path(answer), class: 'btn btn-outline-secondary button-star', method: :patch, remote: true
 
   - if user_signed_in?
     p

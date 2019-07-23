@@ -1,0 +1,9 @@
+$('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
+
+<% if @answer.persisted? %>
+  $answers = $('<%= "div.answers"%>');
+  $answers.replaceWith('<div class="answers"> <%= j render @question.answers %> </div>');
+  $answer = $('<%= "div.answer-#{@answer.id}"%>').detach();
+  $('<%= "div.answers"%>').prepend($answer);
+
+<% end %>

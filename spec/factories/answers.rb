@@ -11,6 +11,7 @@ FactoryBot.define do
 
     trait :ranked_true do
       ranked { true }
+      body { "Ranked answer" }
     end
   end
 end

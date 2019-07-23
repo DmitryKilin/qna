@@ -3,9 +3,29 @@ require 'rails_helper'
 feature 'Author of a question can choice the best answer. ' do
 
   describe  'NOT the author authenticated user ' do
-    scenario 'can see the Star image near the ranked Answer body'
-    scenario 'can NOT see the Star button on the page'
-    scenario 'can NOT see the Unstar button on the page'
+    given!(:user) {create(:user)}
+    given!(:question) {create(:question)}
+    given!(:ranked_answer){create(:answer, :ranked_true, question: question)}
+    given!(:answer){create(:answer, question: question)}
+
+    background {sign_in(user)}
+
+    scenario 'can see the Star image near the ranked Answer body' do
+      visit question_path(question)
+      expect(page).to have_selector('img#img-star')
+    end
+    scenario 'can NOT see the Star button on the page' do
+      visit question_path(question)
+      expect(page).not_to have_link('🌟 Star')
+    end
+    scenario 'can NOT see the Unstar button on the page' do
+      visit question_path(question)
+      expect(page).not_to have_link('Unstar')
+    end
+    scenario 'can create an answer' do
+      visit question_path(question)
+      expect(page).to have_selector('form.answer-form')
+    end
   end
 
   describe  'Author of a question. ' do
@@ -64,13 +84,37 @@ feature 'Author of a question can choice the best answer. ' do
     end
 
 
+    context 'That is one unranked and one ranked answer.' do
+      given!(:answer_unranked) {create(:answer, question: question)}
+      given!(:answer_ranked){create(:answer, :ranked_true, question: question)}
 
-    scenario 'ranked answer MUST be first in the answers list.'
+      scenario 'ranked answer MUST be first in the answers list.' do
+        visit question_path(question)
+        expect(page.body.index(answer_ranked.body)).to be < page.body.index(answer_unranked.body)
+      end
+    end
+
   end
 
   describe 'Unauthenticated user. ' do
-    scenario 'can see the Star image near the ranked Answer body'
-    scenario 'can NOT see the Star button on the page'
-    scenario 'can NOT see the Unstar button on the page'
+    given!(:question) {create(:question)}
+    given!(:answer){create(:answer, :ranked_true, question: question)}
+
+    scenario 'can see the Star image near the ranked Answer body' do
+      visit question_path(question)
+      expect(page).to have_selector('img#img-star')
+    end
+    scenario 'can NOT see the Star button on the page' do
+      visit question_path(question)
+      expect(page).not_to have_link('🌟 Star')
+    end
+    scenario 'can NOT see the Unstar button on the page' do
+      visit question_path(question)
+      expect(page).not_to have_link('Unstar')
+    end
+    scenario 'can NOT create an answer' do
+      visit question_path(question)
+      expect(page).not_to have_selector('form.answer-form')
+    end
   end
 end

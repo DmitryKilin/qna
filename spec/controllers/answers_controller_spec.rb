@@ -127,6 +127,12 @@ RSpec.describe AnswersController, type: :controller do
     it 'can NOT be an another ranked answer per question.' do
       expect{patch :star, params: {id: not_ranked_answer}, format: :js}.not_to change(question.answers.ranked, :count)
     end
+
+    it 'can be another answer be ranked instead of previous stared' do
+      patch :star, params: {id: not_ranked_answer}, format: :js
+      expect(assigns(:answer)).to be_ranked
+      expect(assigns(:prev_ranked)).not_to be_ranked
+    end
   end
 
   describe 'PATCH #update' do
