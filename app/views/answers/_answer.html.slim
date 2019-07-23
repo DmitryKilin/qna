@@ -10,7 +10,7 @@ div class='answer-#{answer.id}'
       - else
         = link_to '🌟 Star', star_answer_path(answer), class: 'btn btn-outline-secondary button-star', method: :patch, remote: true
 
-  - if user_signed_in?
+  - if current_user&.author?(answer)
     p
       = link_to 'Edit', '#', class: 'edit-answer-link', data: {answer_id: answer.id} if current_user&.author?(answer)
       = " | "

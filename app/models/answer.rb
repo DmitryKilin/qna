@@ -1,6 +1,6 @@
 class RankedExclusivity < ActiveModel::Validator
   def validate(record)
-    if record.ranked? && record.question.answers.ranked.count == 1
+    if record.ranked_changed?(from: false, to: true) && record.question.answers.ranked.count == 1
       record.errors[:ranked] << "Ranked answer must be only one per question."
     end
   end

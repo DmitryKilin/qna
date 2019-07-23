@@ -32,7 +32,8 @@ class AnswersController < ApplicationController
   def unstar
     @answer.ranked = false
     @answer.save
-    render :unstar
+    @question = @answer.question
+    render :update
   end
 
   def update

@@ -1,5 +1,0 @@
-$('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
-
-<% if @answer.persisted? %>
-  $('<%= "div.answer-#{@answer.id}"%>').replaceWith('<%= j render @answer %>')
-<% end %>

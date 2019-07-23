@@ -8,7 +8,7 @@ h1= 'Question: '
 
 h2= "Answers: "
 .answers
-  = render @question.answers
+  = render @question.answers.order(ranked: :desc)
 
 - if user_signed_in?
   h2= "New Answer: "
