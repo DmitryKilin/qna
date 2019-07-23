@@ -1,19 +1,8 @@
 $(document).on('turbolinks:load', function(){
-
-    $('a.btn-outline-secondary').on('click', function (e){
-
-        var triggerButton = $(this);
-        var answerID = $(this).data('answer-id');
-        var rankedTextfield = $("input#ranked-" + answerID);
-        var submitButton = $("input#submit-" + answerID);
-
-    });
-
     $('.answers').on('click','.edit-answer-link', function(e){
        e.preventDefault();
        $(this).hide();
        var answerId = $(this).data('answer-id');
        $('form#edit-answer-' + answerId).removeClass('hidden');
     });
-
 });

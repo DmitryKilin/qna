@@ -118,6 +118,17 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'PATCH #star' do
+    let!(:question) {create(:question)}
+    let!(:ranked_answer) {create(:answer, :ranked_true, question: question)}
+    let!(:not_ranked_answer) {create(:answer, question: question)}
+    before{ login(question.user)}
+
+    it 'can NOT be an another ranked answer per question.' do
+      expect{patch :star, params: {id: not_ranked_answer}, format: :js}.not_to change(question.answers.ranked, :count)
+    end
+  end
+
   describe 'PATCH #update' do
     let!(:answer) {create(:answer)}
 
