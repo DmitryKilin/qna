@@ -20,9 +20,5 @@ FactoryBot.define do
       title
       body {"Question Text"}
     end
-    #
-    # trait :with_authorship do
-    #   user
-    # end
   end
 end

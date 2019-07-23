@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :find_question, only: %i[new create]
-  before_action :find_answer, only: %i[show destroy update]
+  before_action :find_answer, only: %i[show destroy update star unstar]
 
   def destroy
     @answer.delete if current_user.author?(@answer)
@@ -15,6 +15,18 @@ class AnswersController < ApplicationController
 
   def show; end
 
+  def star
+    @answer.ranked = true
+    @answer.save
+    render :rank
+  end
+
+  def unstar
+    @answer.ranked = false
+    @answer.save
+    render :rank
+  end
+
   def update
     @answer.update(answer_params) if current_user&.author?(@answer)
     @question = @answer.question
@@ -23,7 +35,7 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit( :body)
+    params.require(:answer).permit( :body, :ranked)
   end
 
   def find_question
