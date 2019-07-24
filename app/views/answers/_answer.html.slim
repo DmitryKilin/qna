@@ -1,10 +1,10 @@
 div class='answer-#{answer.id}'
   p
-    span
-      = image_tag( "star.png", height: 40, alt: 'star', id: "img-star" ) if answer.ranked?
-      = answer.body
 
-    -if current_user&.author?(@question)
+    = image_tag( "star.png", height: 40, alt: 'star', id: "img-star" ) if answer.ranked?
+    = answer.body
+
+    -if current_user&.author?(answer.question)
       - if answer.ranked?
         = link_to 'Unstar', unstar_answer_path(answer), class: 'btn btn-outline-secondary button-star', method: :patch, remote: true
       - else

@@ -16,24 +16,11 @@ class AnswersController < ApplicationController
   def show; end
 
   def star
-    @question = @answer.question
-    @prev_ranked = @question.answers.ranked.first
-
-    unless @prev_ranked.nil?
-      @prev_ranked.ranked = false
-      @prev_ranked.save
-    end
-
-    @answer.ranked = true
-    @answer.save
-    render :star
+    @answer.rank
   end
 
   def unstar
-    @answer.ranked = false
-    @answer.save
-    @question = @answer.question
-    render :update
+    @answer.unrank
   end
 
   def update

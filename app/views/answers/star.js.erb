@@ -1,8 +1,19 @@
 $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
 
 <% if @answer.persisted? %>
-  $answers = $('<%= "div.answers"%>');
-  $answers.replaceWith('<div class="answers"> <%= j render @question.answers %> </div>');
-  $answer = $('<%= "div.answer-#{@answer.id}"%>').detach();
-  $('<%= "div.answers"%>').prepend($answer);
+  $prevRanked = $('img#img-star').parent();
+
+  if ($prevRanked.length !== 0) {
+
+      $prevRanked.children('img#img-star').remove();
+
+      $button = $prevRanked.children('a.btn');
+      var href = $button.attr('href');
+      href = href.replace('unstar', 'star');
+      $button.attr('href', href);
+      $button.text('🌟 Star');
+  }
+
+  $('<%= "div.answer-#{@answer.id}"%>').remove();
+  $("div.answers").prepend('<%= j render @answer %>');
 <% end %>

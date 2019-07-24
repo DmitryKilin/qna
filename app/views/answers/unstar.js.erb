@@ -1,0 +1,12 @@
+$('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
+
+<% if @answer.persisted? %>
+  $prevRanked = $('img#img-star').parent()
+  $prevRanked.children('img#img-star').remove()
+
+  $button = $prevRanked.children('a.btn')
+  var href = $button.attr('href')
+  href  = href.replace('unstar', 'star')
+  $button.attr('href', href)
+  $button.text('🌟 Star')
+<% end %>
