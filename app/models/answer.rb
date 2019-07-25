@@ -17,14 +17,18 @@ class Answer < ApplicationRecord
     end
   end
 
+
+
+  def unrank
+    self.update(ranked: false)
+  end
+
+  private
+
   def ranked_exclusivity
     if ranked_changed?(from: false, to: true) && question.answers.ranked.count == 1
       errors.add(:ranked,  "Ranked answer must be only one per question.")
     end
-  end
-
-  def unrank
-    self.update(ranked: false)
   end
 end
 
