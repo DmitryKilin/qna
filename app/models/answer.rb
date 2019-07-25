@@ -11,13 +11,10 @@ class Answer < ApplicationRecord
   def rank
     prev_ranked = question.answers.ranked.first
 
-    unless prev_ranked.nil?
-      prev_ranked.ranked = false
-      prev_ranked.save
+    Answer.transaction do
+      prev_ranked.update!(ranked: false) unless prev_ranked.nil?
+      self.update!(ranked: true)
     end
-
-    self.ranked = true
-    save
   end
 
   def ranked_exclusivity
@@ -27,8 +24,7 @@ class Answer < ApplicationRecord
   end
 
   def unrank
-    self.ranked = false
-    save
+    self.update(ranked: false)
   end
 end
 

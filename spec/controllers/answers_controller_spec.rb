@@ -130,8 +130,10 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'can be another answer be ranked instead of previous stared' do
       patch :star, params: {id: not_ranked_answer}, format: :js
-      expect(assigns(:answer)).to be_ranked
-      expect(assigns(:prev_ranked)).not_to be_ranked
+      ranked_answer.reload
+      not_ranked_answer.reload
+      expect(not_ranked_answer).to be_ranked
+      expect(ranked_answer).not_to be_ranked
     end
   end
 
