@@ -4,10 +4,13 @@ h1= "New Question"
   = render 'shared/errors', resource: @question
 
 = form_with model: @question do |f|
-  div class="form-group"
+  .form-group
     = f.label :title
     = f.text_field :title, class: "form-control"
-  div class="form-group"
+  .form-group
     = f.label :body
     = f.text_area :body, class: "form-control"
+  .form-group
+    =f.label :files
+    =f.file_field :files, class: "btn btn-outline-primary", multiple: true
   = f.submit 'Ask', class: "btn btn-outline-primary"
