@@ -27,15 +27,18 @@ RSpec.describe AnswersController, type: :controller do
         expect{post :create, params: {question_id: question, answer: attributes_for(:answer)} ,format: :js}.to change(question.answers, :count).by(1)
       end
 
-      it 'saves authored answer with passed attributes' do
-        new_answer_attributes = attributes_for(:answer)
+      it 'saves authored answer with attachment' do
+        new_answer_attributes = attributes_for(:answer, :with_attachments)
+        new_body = new_answer_attributes[:body]
+
         expect {
           post :create, params: {question_id: question, answer: new_answer_attributes },format: :js
         }.to change(question.answers, :count).by(1)
 
-        new_answer = question.answers.find_by(new_answer_attributes)
+        new_answer = question.answers.find_by(body: new_body)
         expect(new_answer).not_to be_nil
         expect(user).to be_author(new_answer)
+        expect(new_answer.files).not_to be_nil
       end
 
       it 'redirects to show question which shows the question and its answers' do

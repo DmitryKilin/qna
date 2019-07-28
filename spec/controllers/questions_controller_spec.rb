@@ -194,16 +194,18 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to assigns(:question)
       end
 
-      it 'created question attributes are equal the input' do
-        new_question_attributes = attributes_for(:question)
-
+      it 'created question attributes with attachment are equal the input' do
+        new_question_attributes = attributes_for(:question, :with_attachments)
+        new_title = new_question_attributes[:title]
+        new_body = new_question_attributes[:body]
         expect {
           post :create, params: {question: new_question_attributes }
         }.to change(Question, :count).by(1)
+        new_question = Question.find_by(title: new_title, body: new_body)
 
-        new_question = Question.find_by(new_question_attributes)
         expect(new_question).not_to be_nil
         expect(user).to be_author(new_question)
+        expect(new_question.files).not_to be_nil
       end
     end
 
