@@ -10,4 +10,8 @@ RSpec.describe Answer, type: :model do
   it { should have_db_column(:question_id).of_type(:integer)  }
 
   it { should have_db_column(:ranked).of_type(:boolean).with_options(default: false) }
+
+  it 'have many attached file' do
+    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
 end

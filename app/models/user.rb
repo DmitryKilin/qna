@@ -11,4 +11,8 @@ class User < ApplicationRecord
     some_instance&.user_id == self.id
   end
 
+  def attachment_owner?(file)
+    author?(Object.const_get(file.record_type).find(file.record_id))
+  end
+
 end

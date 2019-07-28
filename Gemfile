@@ -37,6 +37,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'slim-rails'
 gem 'devise'
+gem "aws-sdk-s3", require: false
 
 # UI
 gem 'jquery-rails'

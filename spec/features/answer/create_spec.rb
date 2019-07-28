@@ -15,7 +15,6 @@ feature 'Пользователь, находясь на странице воп
       visit question_path(question)
       fill_in(:answer_body, with: 'Some new answer')
       click_on 'Answer'
-
       expect(current_path).to eq question_path(question)
 
       within '.answers' do
@@ -42,6 +41,20 @@ feature 'Пользователь, находясь на странице воп
 
       expect(page).to have_content "Body is invalid"
     end
+
+    scenario 'creates an answer with attached files' do
+      sign_in(question.user)
+
+      visit question_path(question)
+      fill_in(:answer_body, with: 'Some new answer')
+
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+
+      click_on 'Answer'
+      expect(page).to have_link('rails_helper.rb')
+      expect(page).to have_link('spec_helper.rb')
+    end
+
   end
 
   describe  'Unauthenticated user ' do

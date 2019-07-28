@@ -8,6 +8,8 @@ class Answer < ApplicationRecord
   validate :ranked_exclusivity
   scope :ranked, -> {where(ranked: true)}
 
+  has_many_attached :files
+
   def rank
     prev_ranked = question.answers.ranked.first
 

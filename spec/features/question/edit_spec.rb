@@ -15,6 +15,14 @@ feature 'User can edit his question.' do
         expect(page).not_to have_link('Edit')
       end
     end
+
+    scenario 'can not see Delete file button on the others authorship Question show page.', js: true do
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+
+      within '.question' do
+        expect(page).not_to have_link('Delete file')
+      end
+    end
   end
 
   describe 'Authenticated author ' do
@@ -29,20 +37,26 @@ feature 'User can edit his question.' do
       end
     end
 
-    scenario 'edit his Question',js: true do
+    scenario 'can edit question with attached files', js: true do
       within '.question' do
         click_on 'Edit'
 
         fill_in 'Body', with: 'edited question body'
         fill_in 'Title', with: 'edited question title'
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+
         click_on 'Save'
 
         expect(page).to_not have_content question.body
         expect(page).to have_content 'edited question body'
         expect(page).to have_content 'edited question title'
+        expect(page).to have_link('rails_helper.rb')
+        expect(page).to have_link('spec_helper.rb')
       end
     end
+    scenario 'can delete attached file/files' do
 
+    end
     scenario 'edit his answer with errors', js: true do
       within '.question' do
         click_on 'Edit'
@@ -50,7 +64,6 @@ feature 'User can edit his question.' do
         expect(page).to have_content question.body
       end
     end
-
   end
 
   describe 'Unauthenticated user ' do

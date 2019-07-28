@@ -3,6 +3,9 @@ div class='answer-#{answer.id}'
 
     = image_tag( "star.png", height: 40, alt: 'star', id: "img-star" ) if answer.ranked?
     = answer.body
+    - if answer.files.attached?
+      - answer.files.each do |file|
+        p= link_to file.filename.to_s, url_for(file)
 
     -if current_user&.author?(answer.question)
       - if answer.ranked?
@@ -21,4 +24,9 @@ div class='answer-#{answer.id}'
       .form-group
         = f.label :body
         = f.text_area :body, class: "form-control"
+      .form-group
+        = f.label :files
+        = f.file_field :files, class: "btn btn-outline-primary", multiple: true
       = f.submit 'Save', class: "btn btn-outline-primary"
+
+  p ----------------------------------------

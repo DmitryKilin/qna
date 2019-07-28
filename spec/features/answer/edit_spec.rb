@@ -34,6 +34,9 @@ feature 'User can edit his answer.' do
         expect(page).to have_content 'error(s) detected:'
       end
     end
+
+    scenario 'can attache a files to his answer'
+    scenario 'can delete attached file/files from his answer'
   end
 
   describe 'Unautheticated user ' do
