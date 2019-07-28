@@ -28,7 +28,7 @@ div class='answer-#{answer.id}'
         = f.text_area :body, class: "form-control"
       .form-group
         = f.label :files
-        = f.file_field :files, class: "btn btn-outline-primary", multiple: true
+        = f.file_field :files, class: "btn btn-outline-primary", multiple: true, direct_upload: true
       = f.submit 'Save', class: "btn btn-outline-primary"
 
   p ----------------------------------------
