@@ -31,5 +31,20 @@ RSpec.describe User, type: :model do
       expect(user).not_to be_author(answer)
     end
   end
+  describe '#attachment_owner?' do
+    let(:user) {create(:user)}
+
+    it { is_expected.to respond_to(:attachment_owner?) }
+    it "true if user is the owner of attachments" do
+      question = user.questions.create(attributes_for(:question, :with_attachments))
+      expect(user).to be_attachment_owner(question.files.first)
+    end
+
+    it "false if user NOT the owner of attachments" do
+      question = create(:question, :with_attachments)
+      expect(user).not_to be_attachment_owner(question.files.first)
+    end
+
+  end
 
 end

@@ -1,3 +1,5 @@
+include ActionDispatch::TestProcess
+
 FactoryBot.define do
   sequence :title do |n|
     "Question № #{n}"
@@ -10,6 +12,10 @@ FactoryBot.define do
 
     trait :with_answers do
       answers  {create_list(:answer, 3)}
+    end
+
+    trait :with_attachments do
+      files {fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper/rb')}
     end
 
     trait :invalid do
