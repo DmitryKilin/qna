@@ -2,9 +2,7 @@ class FilesController < ApplicationController
   before_action :find_file, only: :destroy
 
   def destroy
-    if current_user&.attachment_owner?(@file)
-      @file.purge
-    end
+      @file.purge if current_user&.attachment_owner?(@file)
   end
 
   def find_file

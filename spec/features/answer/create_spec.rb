@@ -42,7 +42,7 @@ feature 'Пользователь, находясь на странице воп
       expect(page).to have_content "Body is invalid"
     end
 
-    scenario 'creates an answer with attached files' do
+    scenario 'creates an answer with attached files', js: true do
       sign_in(question.user)
 
       visit question_path(question)
