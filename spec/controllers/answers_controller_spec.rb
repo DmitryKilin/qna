@@ -36,9 +36,10 @@ RSpec.describe AnswersController, type: :controller do
         }.to change(question.answers, :count).by(1)
 
         new_answer = question.answers.find_by(body: new_body)
+        new_answer.files.attach(create_file_blob)
         expect(new_answer).not_to be_nil
         expect(user).to be_author(new_answer)
-        expect(new_answer.files).not_to be_nil
+        expect(new_answer.files.first.filename).to eq("image.jpg")
       end
 
       it 'redirects to show question which shows the question and its answers' do
