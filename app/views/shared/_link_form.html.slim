@@ -1,0 +1,8 @@
+h2= "Links:"
+= f.fields_for :links do |l|
+  .form-group
+    = l.label :name, 'Link name: '
+    = l.text_field :name, class: "form-control"
+  .form-group
+    = l.label :url
+    = l.text_field :url, class: "form-control"

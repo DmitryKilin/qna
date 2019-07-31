@@ -3,6 +3,12 @@ div class='answer-#{answer.id}'
 
     = image_tag( "star.png", height: 40, alt: 'star', id: "img-star" ) if answer.ranked?
     = answer.body
+    .links
+      = render partial: '/shared/links', object: answer, as: "item"
+      / h2= 'Links: '
+      / ul
+      /   - answer.links.each do |link|
+      /     li= link_to link.name, link.url
     - if answer.files.attached?
       - answer.files.each do |file|
         div class='attachment-#{file.id}'

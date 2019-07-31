@@ -1,6 +1,8 @@
 class Answer < ApplicationRecord
   belongs_to :question, inverse_of: :answers
   belongs_to :user, inverse_of: :answers
+  has_many :links, as: :linkable , dependent: :destroy
+
 
   validates :body, presence: true
   validates_format_of :body, with: /\w+/
@@ -9,6 +11,8 @@ class Answer < ApplicationRecord
   scope :ranked, -> {where(ranked: true)}
 
   has_many_attached :files
+  accepts_nested_attributes_for :links, reject_if: :all_blank
+
 
   def rank
     prev_ranked = question.answers.ranked.first
