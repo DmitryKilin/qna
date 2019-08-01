@@ -6,8 +6,10 @@ feature 'Пользователь может создавать вопрос.', 
   I'd like to be able to ask the question
 } do
     given(:user) { create(:user, email: 'user@test.com', password: '12345678') }
+    given(:search_engine_url1) {'https://yandex.ru'}
+    given(:search_engine_url2) {'https://google.ru'}
 
-    scenario 'Authenticated user asks a question' do
+    scenario 'Authenticated user asks a question with links', js: true do
       sign_in(user)
 
       visit questions_path
@@ -15,11 +17,22 @@ feature 'Пользователь может создавать вопрос.', 
 
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'some text'
+
+      click_link 'Add Link'
+
+      page.all('input.form-control',{id: %r{question_links_attributes_.}})[0].set('Favorite searching1')
+      page.all('input.form-control',{id: %r{question_links_attributes_.}})[1].set(search_engine_url1)
+
+      page.all('input.form-control',{id: %r{question_links_attributes_.}})[2].set('Favorite searching2')
+      page.all('input.form-control',{id: %r{question_links_attributes_.}})[3].set(search_engine_url2)
+
       click_on 'Ask'
 
       expect(page).to have_content "Your question successfully created"
       expect(page).to have_content 'Test question'
       expect(page).to have_content 'some text'
+      expect(page).to have_link 'Favorite searching1', href: search_engine_url1
+      expect(page).to have_link 'Favorite searching2', href: search_engine_url2
     end
 
     scenario 'Authenticated user asks a question with error', js: true do

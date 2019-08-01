@@ -8,16 +8,10 @@ p
 .attachments
   h2= 'Attachments: '
 
--if @question.files.attached?
-  =render 'attachments'
+  -if @question.files.attached?
+    =render 'attachments'
 
-.links
-  =render partial: '/shared/links',  object:  @question, as: "item"
-  / h2= 'Links: '
-  / ul
-  /   - @question.links.each do |link|
-  /     li= link_to link.name, link.url
-
+  = render partial: '/links/links', object: @question, as: "item"
 
 - if current_user&.author?(@question)
   = link_to 'Delete', question_path(@question), method: :delete, class: "btn btn-outline-primary"

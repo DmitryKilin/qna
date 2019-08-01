@@ -13,15 +13,9 @@ h1= "New Question"
   .form-group
     =f.label :files
     =f.file_field :files, class: "btn btn-outline-primary", multiple: true
-  .links
-    =render 'shared/link_form', f: f
-    / h2= "Links:"
-    / =f.fields_for :links do |l|
-    /   .form-group
-    /     = l.label :name, 'Link name: '
-    /     = l.text_field :name, class: "form-control"
-    /   .form-group
-    /     = l.label :url
-    /     = l.text_field :url, class: "form-control"
-
+  #links
+    = f.fields_for :links do |link|
+      = render 'links/link_cocoon', f: link
+    .add-link
+      = link_to_add_association 'Add Link', f, :links, partial: 'links/link_cocoon'
   = f.submit 'Ask', class: "btn btn-outline-primary"

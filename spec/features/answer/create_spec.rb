@@ -7,14 +7,25 @@ feature 'Пользователь, находясь на странице воп
 
   given(:user) {create(:user, email: 'user@test.com', password: '12345678')}
   given(:question) {create(:question)}
+  given(:search_engine_url1) {'https://yandex.ru'}
+  given(:search_engine_url2) {'https://google.ru'}
 
   describe 'Authenticated user ' do
-    scenario 'create an answer using the question show page', js: true do
+    scenario 'create an answer with links using the question show page', js: true do
       sign_in(question.user)
 
       visit question_path(question)
       fill_in(:answer_body, with: 'Some new answer')
+
+      click_link 'Add Link'
+
+      page.all('input.form-control',{id: %r{answer_links_attributes_.}})[0].set('Favorite searching1')
+      page.all('input.form-control',{id: %r{answer_links_attributes_.}})[1].set(search_engine_url1)
+
+      page.all('input.form-control',{id: %r{answer_links_attributes_.}})[2].set('Favorite searching2')
+      page.all('input.form-control',{id: %r{answer_links_attributes_.}})[3].set(search_engine_url2)
       click_on 'Answer'
+
       expect(current_path).to eq question_path(question)
 
       within '.answers' do
