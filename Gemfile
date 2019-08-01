@@ -38,6 +38,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'slim-rails'
 gem 'devise'
 gem "aws-sdk-s3", require: false
+gem 'valid_url'
 
 # UI
 gem 'jquery-rails'
