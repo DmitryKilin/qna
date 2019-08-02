@@ -1,0 +1,5 @@
+$('.link-errors').html('<%= render 'shared/errors', resource: @link %>');
+
+<% if @link.destroyed? %>
+  $('<%= ".link-#{@link.id}" %>').remove();
+<% end %>

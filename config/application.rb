@@ -22,6 +22,8 @@ module Qna
                        helper_specs: false,
                        routing_specs: false,
                        request_specs: false
+      g.helper     false
+      g.assets     false
     end
   end
 end

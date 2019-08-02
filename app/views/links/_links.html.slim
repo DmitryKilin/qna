@@ -1,6 +1,9 @@
-h2= 'Links: '
+h3= 'Links: '
 ul
   - item.links.each do |link|
-    -if link.gist?
-      code (data-gist-id== link.gist_id)
-    li= link_to link.name, link.url
+    div class='link-#{link.id}'
+      -if link.gist?
+        code (data-gist-id== link.gist_id)
+      - if current_user&.author?(link.linkable)
+        = link_to 'Delete link', delete_link_path(link), method: :delete, class: "btn btn-outline-secondary", remote: true
+      li= link_to link.name, link.url

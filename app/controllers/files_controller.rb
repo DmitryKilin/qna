@@ -1,4 +1,5 @@
 class FilesController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_file, only: :destroy
 
   def destroy
@@ -8,6 +9,4 @@ class FilesController < ApplicationController
   def find_file
     @file = ActiveStorage::Attachment.find(params[:id])
   end
-
-
 end

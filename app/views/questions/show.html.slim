@@ -1,12 +1,12 @@
-.answer-errors
-.question-errors
+div class=%w(answer-errors question-errors link-errors)
 
 h1= 'Question: '
 
 .question
   = render 'form'
-
+p ----------------------------------------
 h2= "Answers: "
+p ----------------------------------------
 .answers
   = render @question.answers.order(ranked: :desc)
 
