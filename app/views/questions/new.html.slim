@@ -1,7 +1,6 @@
 h1= "New Question"
 
-.question-errors
-  = render 'shared/errors', resource: @question
+.errors
 
 = form_with model: @question do |f|
   .form-group
