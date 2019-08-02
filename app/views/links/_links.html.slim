@@ -1,4 +1,6 @@
 h2= 'Links: '
 ul
   - item.links.each do |link|
+    -if link.gist?
+      code (data-gist-id== link.gist_id)
     li= link_to link.name, link.url

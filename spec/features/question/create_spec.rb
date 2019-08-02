@@ -7,7 +7,7 @@ feature 'Пользователь может создавать вопрос.', 
 } do
     given(:user) { create(:user, email: 'user@test.com', password: '12345678') }
     given(:search_engine_url1) {'https://yandex.ru'}
-    given(:search_engine_url2) {'https://google.ru'}
+    given(:my_gist) {"https://gist.github.com/DmitryKilin/0f6260bee40dac34d43ecc48caa06913"}
 
     scenario 'Authenticated user asks a question with links', js: true do
       sign_in(user)
@@ -23,8 +23,8 @@ feature 'Пользователь может создавать вопрос.', 
       page.all('input.form-control',{id: %r{question_links_attributes_.}})[0].set('Favorite searching1')
       page.all('input.form-control',{id: %r{question_links_attributes_.}})[1].set(search_engine_url1)
 
-      page.all('input.form-control',{id: %r{question_links_attributes_.}})[2].set('Favorite searching2')
-      page.all('input.form-control',{id: %r{question_links_attributes_.}})[3].set(search_engine_url2)
+      page.all('input.form-control',{id: %r{question_links_attributes_.}})[2].set('My Gist')
+      page.all('input.form-control',{id: %r{question_links_attributes_.}})[3].set(my_gist)
 
       click_on 'Ask'
 
@@ -32,7 +32,7 @@ feature 'Пользователь может создавать вопрос.', 
       expect(page).to have_content 'Test question'
       expect(page).to have_content 'some text'
       expect(page).to have_link 'Favorite searching1', href: search_engine_url1
-      expect(page).to have_link 'Favorite searching2', href: search_engine_url2
+      expect(page).to have_link 'My Gist', href: my_gist
     end
 
     scenario 'Authenticated user asks a question with error', js: true do
@@ -44,6 +44,23 @@ feature 'Пользователь может создавать вопрос.', 
       click_on 'Ask'
 
       expect(page).to have_content "Title can't be blank"
+    end
+
+    scenario 'Authenticated user asks a question using invalid url in the Link field', js: true do
+      sign_in(user)
+
+      visit questions_path
+      click_on 'Ask question'
+
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'some text'
+
+      fill_in 'Link name', with: 'Invalid URL'
+      fill_in 'Url', with:'http://Invalid'
+
+      click_on 'Ask'
+
+      expect(page).to have_content('Links url is an invalid URL')
     end
 
     scenario 'Только аутентифицированный пользователь может создавать вопросы' do

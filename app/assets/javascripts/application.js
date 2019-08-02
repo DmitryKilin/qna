@@ -17,4 +17,5 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require cocoon
+//= require gist-embed
 //= require_tree .

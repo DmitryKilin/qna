@@ -44,6 +44,7 @@ gem 'valid_url'
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.3.1'
 gem "cocoon"
+gem 'gist-embed-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

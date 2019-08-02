@@ -217,7 +217,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    context 'without valid attributes' do
+    context 'with invalid attributes' do
       before { login(user) }
 
       it 'does not save the question' do
