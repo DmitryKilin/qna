@@ -33,7 +33,7 @@ feature 'User can edit his answer.' do
         click_on 'Save'
       end
 
-      within '.answer-errors' do
+      within '.errors' do
         expect(page).to have_content 'error(s) detected:'
       end
     end

@@ -39,6 +39,8 @@ gem 'slim-rails'
 gem 'devise'
 gem "aws-sdk-s3", require: false
 gem 'valid_url'
+gem 'mini_magick'
+gem 'image_processing', '~> 1.2'
 
 # UI
 gem 'jquery-rails'

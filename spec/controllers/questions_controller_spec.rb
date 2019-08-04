@@ -211,9 +211,12 @@ RSpec.describe QuestionsController, type: :controller do
         }.to change(Question, :count).by(1)
         new_question = Question.find_by(title: new_title, body: new_body)
         new_question.files.attach(create_file_blob)
+        new_question.reward.attach(create_file_blob)
+
         expect(new_question).not_to be_nil
         expect(user).to be_author(new_question)
         expect(new_question.files.first.filename).to eq("image.jpg")
+        expect(new_question.reward.filename).to eq("image.jpg")
       end
     end
 

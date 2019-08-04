@@ -10,6 +10,12 @@ h1= "New Question"
     = f.label :body
     = f.text_area :body, class: "form-control"
   .form-group
+    = f.label :reward
+    = f.file_field :reward, class: "btn btn-outline-primary"
+  .form-group
+    = f.label :praise
+    = f.text_field :praise, class: "form-control"
+  .form-group
     =f.label :files
     =f.file_field :files, class: "btn btn-outline-primary", multiple: true
   #links

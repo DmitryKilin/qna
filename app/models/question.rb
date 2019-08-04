@@ -6,6 +6,7 @@ class Question < ApplicationRecord
 
   accepts_nested_attributes_for :links, reject_if: :all_blank
   has_many_attached :files
+  has_one_attached :reward
 
   validates :title, :body, presence: true
 end

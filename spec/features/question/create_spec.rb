@@ -84,6 +84,24 @@ feature 'Пользователь может создавать вопрос.', 
       expect(page).to have_link('rails_helper.rb')
       expect(page).to have_link('spec_helper.rb')
     end
-end
+
+    scenario 'Authenticated user asks the question with Reward ' do
+      sign_in(user)
+
+      visit questions_path
+      click_on 'Ask question'
+
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'some text'
+      fill_in 'Praise', with: 'You are the Star!'
+
+      attach_file 'Reward', "#{Rails.root}/spec/fixtures/files/star.png"
+
+      click_on 'Ask'
+
+      expect(page).to have_selector('img#reward')
+      expect(page).to have_text('You are the Star!')
+    end
+  end
 
 
