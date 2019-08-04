@@ -1,11 +1,12 @@
 $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
 
 <% if @answer.persisted? %>
-  $prevRanked = $('img#img-star').parent();
+  $image = $('img#img-star')
+  $prevRanked = $image.parent().parent();
 
   if ($prevRanked.length !== 0) {
 
-      $prevRanked.children('img#img-star').remove();
+      $image.remove();
 
       $button = $prevRanked.children('a.btn');
       var href = $button.attr('href');
