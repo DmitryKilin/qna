@@ -15,4 +15,8 @@ class User < ApplicationRecord
     author?(Object.const_get(file.record_type).find(file.record_id))
   end
 
+  def rewarded_answers
+    self.answers.ranked
+  end
+
 end

@@ -99,7 +99,7 @@ feature 'Пользователь может создавать вопрос.', 
 
       click_on 'Ask'
 
-      expect(page).to have_selector('img#reward')
+      expect(page).to have_selector('img#img-star')
       expect(page).to have_text('You are the Star!')
     end
   end

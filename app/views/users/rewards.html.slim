@@ -1,0 +1,7 @@
+- current_user.rewarded_answers.each do |a|
+  p
+    =a.question.title + ' | '
+    =a.question.praise + ' | ' if a.question.praise
+    =image_tag a.question.reward.variant(resize: "32x32"), alt: "Награда!" if  a.question.reward.attached?
+
+
