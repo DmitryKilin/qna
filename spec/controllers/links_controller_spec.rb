@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe LinksController, type: :controller do
   let!(:question) {create(:question)}
-  let(:my_gist) {"https://gist.github.com/DmitryKilin/0f6260bee40dac34d43ecc48caa06913"}
-  before{question.links.create(name: "Gist", url: my_gist)}
+  let!(:link) {create(:link, :gist, linkable: question)}
 
   describe "DELETE #destroy" do
     context 'Authenticated author ' do

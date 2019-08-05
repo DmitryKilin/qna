@@ -21,9 +21,6 @@ p ----------------------------------------
       = f.label :files
       = f.file_field :files, class: "btn btn-outline-primary", multiple: true
     #links
-      = f.fields_for :links do |link|
-        = render 'links/link_cocoon', f: link
-      .add-link
-        = link_to_add_association 'Add Link', f, :links, partial: 'links/link_cocoon'
+      =render 'links/link', f: f
     = f.submit 'Answer', class: "btn btn-outline-primary"
 

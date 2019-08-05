@@ -1,3 +1,5 @@
+include ActionDispatch::TestProcess
+
 FactoryBot.define do
   sequence :email do |n|
     "user#{n}@test.com"
