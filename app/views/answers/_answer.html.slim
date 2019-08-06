@@ -1,10 +1,10 @@
 div class='answer-#{answer.id}'
   p
     -if answer.ranked?
-      -if answer.question.reward.attached?
-        = image_tag answer.question.reward.variant(resize: "32x32"), alt: "Награда!", id: "img-star"
+      -if answer.question.prize&.reward.attached?
+        = image_tag answer.question.prize.reward.variant(resize: "32x32"), alt: "Награда!", id: "img-reward"
       -else
-        = image_tag( "star.png", height: 40, alt: 'star', id: "img-star" )
+        = image_tag( "star.png", height: 40, alt: 'star', id: "img-reward" )
     = answer.body
     .links
       = render partial: '/links/links', object: answer, as: "item"

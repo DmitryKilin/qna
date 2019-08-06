@@ -10,8 +10,8 @@ p
   = link_to 'Edit', '#', class: "btn btn-outline-primary edit-question-link", data: {question_id: @question.id}
 
 .reward
-  h3= 'Reward: '
-  =render 'reward'
+  h3= 'Prize: '
+  =render @question.prize unless @question.prize.nil?
 
 .attachments
   h3= 'Attachments: '

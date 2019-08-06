@@ -5,7 +5,7 @@ feature 'Пользователь может создавать вопрос.', 
   As an authenticated user
   I'd like to be able to ask the question
 } do
-    given(:user) { create(:user, email: 'user@test.com', password: '12345678') }
+    given(:user) { create(:user) }
     given(:search_engine_url1) {'https://yandex.ru'}
     given(:my_gist) {"https://gist.github.com/DmitryKilin/0f6260bee40dac34d43ecc48caa06913"}
 
@@ -18,13 +18,10 @@ feature 'Пользователь может создавать вопрос.', 
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'some text'
 
-      click_link 'Add Link'
-
-      page.all('input.form-control',{id: %r{question_links_attributes_.}})[0].set('Favorite searching1')
-      page.all('input.form-control',{id: %r{question_links_attributes_.}})[1].set(search_engine_url1)
-
-      page.all('input.form-control',{id: %r{question_links_attributes_.}})[2].set('My Gist')
-      page.all('input.form-control',{id: %r{question_links_attributes_.}})[3].set(my_gist)
+      within '#links' do
+        fill_in 'Link name', with: 'Favorite searching1'
+        fill_in 'Url', with: search_engine_url1
+      end
 
       click_on 'Ask'
 
@@ -32,7 +29,6 @@ feature 'Пользователь может создавать вопрос.', 
       expect(page).to have_content 'Test question'
       expect(page).to have_content 'some text'
       expect(page).to have_link 'Favorite searching1', href: search_engine_url1
-      expect(page).to have_link 'My Gist', href: my_gist
     end
 
     scenario 'Authenticated user asks a question with error', js: true do
@@ -85,7 +81,7 @@ feature 'Пользователь может создавать вопрос.', 
       expect(page).to have_link('spec_helper.rb')
     end
 
-    scenario 'Authenticated user asks the question with Reward ' do
+    scenario 'Authenticated user asks the question with Prize ' do
       sign_in(user)
 
       visit questions_path
@@ -93,11 +89,14 @@ feature 'Пользователь может создавать вопрос.', 
 
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'some text'
-      fill_in 'Praise', with: 'You are the Star!'
 
-      attach_file 'Reward', "#{Rails.root}/spec/fixtures/files/star.png"
+      within '#prize' do
+        attach_file 'Reward', "#{Rails.root}/spec/fixtures/files/image.jpg"
+        fill_in  'Praise', with: 'You are the Star!'
+      end
 
-      click_on 'Ask'
+        click_on 'Ask'
+
 
       expect(page).to have_selector('img#img-star')
       expect(page).to have_text('You are the Star!')

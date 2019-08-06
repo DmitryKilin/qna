@@ -9,16 +9,22 @@ h1= "New Question"
   .form-group
     = f.label :body
     = f.text_area :body, class: "form-control"
+  / .form-group
+  /   = f.label :reward
+  /   = f.file_field :reward, class: "btn btn-outline-primary"
+  / .form-group
+  /   = f.label :praise
+  /   = f.text_field :praise, class: "form-control"
+  h2= 'Files:'
   .form-group
-    = f.label :reward
-    = f.file_field :reward, class: "btn btn-outline-primary"
-  .form-group
-    = f.label :praise
-    = f.text_field :praise, class: "form-control"
-  .form-group
-    =f.label :files
-    =f.file_field :files, class: "btn btn-outline-primary", multiple: true
+    = f.label :files
+    = f.file_field :files, class: "btn btn-outline-primary", multiple: true
+  #prize
+    h2= 'Prize:'
+    = f.fields_for :prize do |prize|
+      = render 'prizes/prize_form', prize: prize
   #links
+    h2= 'Links:'
     = f.fields_for :links do |link|
       = render 'links/link_cocoon', f: link
     .add-link

@@ -52,6 +52,10 @@ RSpec.describe QuestionsController, type: :controller do
         expect(assigns(:question).links.first).to be_a_new(Link)
       end
 
+      it 'assigns a new Prize into Question' do
+        expect(assigns(:question).prize).to be_a_new(Prize)
+      end
+
       it 'renders new view which represents @question' do
         expect(response).to render_template :new
       end
@@ -216,7 +220,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(new_question).not_to be_nil
         expect(user).to be_author(new_question)
         expect(new_question.files.first.filename).to eq("rails_helper.rb")
-        expect(new_question.reward.filename).to eq("image.jpg")
       end
     end
 

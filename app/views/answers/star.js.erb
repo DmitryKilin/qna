@@ -1,7 +1,7 @@
 $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
 
 <% if @answer.persisted? %>
-  $image = $('img#img-star')
+  $image = $('img#img-reward')
   $prevRanked = $image.parent().parent();
 
   if ($prevRanked.length !== 0) {

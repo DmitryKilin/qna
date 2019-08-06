@@ -16,14 +16,6 @@ FactoryBot.define do
 
     trait :with_attachments do
       files { [fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper/rb')] }
-      reward {fixture_file_upload(Rails.root.join('spec/fixtures/files', 'image.jpg'), 'image/jpeg')}
-      praise {'You are the Star'}
-    end
-
-    trait :with_attachments do
-      files
-      reward
-      praise
     end
 
     trait :invalid do

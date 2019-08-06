@@ -7,6 +7,7 @@ feature 'Author of a question can choice the best answer. ' do
     given!(:question) {create(:question)}
     given!(:ranked_answer){create(:answer, :ranked_true, question: question)}
     given!(:answer){create(:answer, question: question)}
+    given!(:prize){create(:prize, question: question)}
 
     background {sign_in(user)}
 
@@ -30,6 +31,8 @@ feature 'Author of a question can choice the best answer. ' do
 
   describe  'Author of a question. ' do
     given!(:question) {create(:question)}
+    given!(:prize){create(:prize, question: question)}
+
     background {sign_in(question.user)}
 
     context 'Answer is ranked.' do
@@ -37,7 +40,7 @@ feature 'Author of a question can choice the best answer. ' do
 
       scenario 'can see the Star image near the ranked Answer body' do
         visit question_path(question)
-        expect(page).to have_selector('img#img-star')
+        expect(page).to have_selector('img#img-reward')
       end
 
       scenario 'can see the Unstar instead Star button if Answer ranked.' do
@@ -50,7 +53,7 @@ feature 'Author of a question can choice the best answer. ' do
         visit question_path(question)
         click_link('Unstar')
         expect(page).not_to have_link('Unstar')
-        expect(page).not_to have_selector('img#img-star')
+        expect(page).not_to have_selector('img#img-reward')
       end
 
       scenario 'only ONE ranked answer per question can be.' do
@@ -63,7 +66,7 @@ feature 'Author of a question can choice the best answer. ' do
 
       scenario 'can NOT see the Star image near the unranked Answer body' do
         visit question_path(question)
-        expect(page).not_to have_selector('img#img-star')
+        expect(page).not_to have_selector('img#img-reward')
       end
 
       scenario 'can see the Star button  if Answer unranked.' do
@@ -99,10 +102,11 @@ feature 'Author of a question can choice the best answer. ' do
   describe 'Unauthenticated user. ' do
     given!(:question) {create(:question)}
     given!(:answer){create(:answer, :ranked_true, question: question)}
+    given!(:prize){create(:prize, question: question)}
 
     scenario 'can see the Star image near the ranked Answer body' do
       visit question_path(question)
-      expect(page).to have_selector('img#img-star')
+      expect(page).to have_selector('img#img-reward')
     end
     scenario 'can NOT see the Star button on the page' do
       visit question_path(question)
