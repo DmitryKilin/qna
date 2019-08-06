@@ -17,13 +17,16 @@ feature 'Пользователь, находясь на странице воп
       visit question_path(question)
       fill_in(:answer_body, with: 'Some new answer')
 
-      click_link 'Add Link'
+      within '#links' do
+        fill_in 'Link name', with: 'Favorite searching1'
+        fill_in 'Url', with: search_engine_url1
+      end
 
-      page.all('input.form-control',{id: %r{answer_links_attributes_.}})[0].set('Favorite searching1')
-      page.all('input.form-control',{id: %r{answer_links_attributes_.}})[1].set(search_engine_url1)
+      within '#links' do
+        fill_in 'Link name', with: 'Favorite searching1'
+        fill_in 'Url', with: search_engine_url1
+      end
 
-      page.all('input.form-control',{id: %r{answer_links_attributes_.}})[2].set('Favorite searching2')
-      page.all('input.form-control',{id: %r{answer_links_attributes_.}})[3].set(search_engine_url2)
       click_on 'Answer'
 
       expect(current_path).to eq question_path(question)
