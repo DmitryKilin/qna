@@ -7,24 +7,30 @@ RSpec.describe Link, type: :model do
   it { should validate_presence_of :url}
 
   describe  '#gist?' do
-    let(:question) {create(:question)}
+    let!(:question) {create(:question)}
 
-    it 'true if url link to a gist' do
-      question.links.create(attributes_for(:link, :gist))
-      expect(question.links.first).to be_gist
+    describe ' link is the gist' do
+      let!(:link) {create(:link, :gist, linkable: question)}
+
+      it 'true if url link to a gist' do
+        expect(question.links.first).to be_gist
     end
 
-    it 'false if url does NOT link to a gist' do
-      question.links.create(attributes_for(:link))
-      expect(question.links.first).not_to be_gist
+    end
+    describe ' link is NOT the gist' do
+      let!(:link) {create(:link, linkable: question)}
+
+      it 'false if url does NOT link to a gist' do
+        expect(question.links.first).not_to be_gist
+      end
     end
   end
 
   describe '#gist_id' do
-    let(:question) {create(:question)}
-
+    let!(:question) {create(:question)}
+    let!(:link) {create(:link, :gist, linkable: question)}
     it 'returns the gist_id from the gist URL' do
-      question.links.create(attributes_for(:link, :gist))
+      # question.links.create(attributes_for(:link, :gist))
       expect(question.links.first.gist_id).to eq '0f6260bee40dac34d43ecc48caa06913'
     end
   end
