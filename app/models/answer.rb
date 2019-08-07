@@ -1,7 +1,6 @@
 class Answer < ApplicationRecord
   belongs_to :question, inverse_of: :answers
   belongs_to :user, inverse_of: :answers
-  has_many :prizes, inverse_of: :answer
   has_many :links, as: :linkable , dependent: :destroy
 
 
@@ -17,17 +16,22 @@ class Answer < ApplicationRecord
 
   def rank
     prev_ranked = question.answers.ranked.first
+    prize = question.prize
 
-    Answer.transaction do
+    self.transaction do
+      prize&.update!(user: user)
       prev_ranked.update!(ranked: false) unless prev_ranked.nil?
-      self.update!(ranked: true)
+      update!(ranked: true)
     end
   end
 
 
 
   def unrank
-    self.update(ranked: false)
+    self.transaction do
+      question.prize.update(user: nil)
+      update(ranked: false)
+    end
   end
 
   private

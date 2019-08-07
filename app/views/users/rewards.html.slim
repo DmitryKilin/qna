@@ -1,7 +1,7 @@
-- current_user.rewarded_answers.each do |a|
+- current_user.prizes.each do |a|
   p
     =a.question.title + ' | '
-    =a.question.prize.praise + ' | '
-    =image_tag a.question.prize.reward.variant(resize: "32x32"), alt: "Награда!" if  a.question.prize.reward.attached?
+    =a.praise + ' | '
+    =image_tag a.reward.variant(resize: "32x32"), alt: "Награда!" if  a.reward.attached?
 
 

@@ -5,6 +5,7 @@ RSpec.describe User, type: :model do
   it {should validate_presence_of :password}
   it { should have_many(:questions).class_name('Question').inverse_of(:user) }
   it { should have_many(:answers).class_name('Answer').inverse_of(:user) }
+  it { should have_many(:prizes).inverse_of(:user)}
   
   describe  '#author?'do
     let(:user) {create(:user)}
