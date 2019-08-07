@@ -6,13 +6,21 @@ FactoryBot.define do
   end
 
   factory :question do
-    title {'MyString'}
+    title {generate :title}
     body {'MyText'}
     user
 
-    trait :with_answers do
-      answers  {create_list(:answer, 3)}
+    factory :question_with_answers do
+      transient do
+        first_ranked { false }
+      end
+
+      after(:create) do |question, evaluator|
+        create_list(:answer, 2, question: question)
+        question.answers.first.update!(ranked: true) if evaluator.first_ranked
+      end
     end
+
 
     trait :with_attachments do
       files { [fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper/rb')] }
@@ -20,11 +28,6 @@ FactoryBot.define do
 
     trait :invalid do
       title { nil }
-    end
-
-    trait :sequence do
-      title
-      body {"Question Text"}
     end
   end
 end

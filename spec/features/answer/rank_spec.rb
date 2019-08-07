@@ -5,7 +5,7 @@ feature 'Author of a question can choice the best answer. ' do
   describe  'NOT the author authenticated user ' do
     given!(:user) {create(:user)}
     given!(:question) {create(:question)}
-    given!(:ranked_answer){create(:answer, :ranked_true, question: question)}
+    given!(:ranked_answer){create(:answer, ranked: true, question: question)}
     given!(:answer){create(:answer, question: question)}
     given!(:prize){create(:prize, question: question, user: question.user)}
 
@@ -36,7 +36,7 @@ feature 'Author of a question can choice the best answer. ' do
     background {sign_in(question.user)}
 
     context 'Answer is ranked.' do
-      given!(:answer){create(:answer, :ranked_true, question: question)}
+      given!(:answer){create(:answer, ranked: true, question: question)}
 
       scenario 'can see the Star image near the ranked Answer body' do
         visit question_path(question)
@@ -89,7 +89,7 @@ feature 'Author of a question can choice the best answer. ' do
 
     context 'That is one unranked and one ranked answer.' do
       given!(:answer_unranked) {create(:answer, question: question)}
-      given!(:answer_ranked){create(:answer, :ranked_true, question: question)}
+      given!(:answer_ranked){create(:answer, ranked: true, question: question)}
 
       scenario 'ranked answer MUST be first in the answers list.' do
         visit question_path(question)
@@ -101,7 +101,7 @@ feature 'Author of a question can choice the best answer. ' do
 
   describe 'Unauthenticated user. ' do
     given!(:question) {create(:question)}
-    given!(:answer){create(:answer, :ranked_true, question: question)}
+    given!(:answer){create(:answer, ranked: true, question: question)}
     given!(:prize){create(:prize, question: question)}
 
     scenario 'can see the Star image near the ranked Answer body' do

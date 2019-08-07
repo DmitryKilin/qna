@@ -1,19 +1,16 @@
 include ActionDispatch::TestProcess
 
 FactoryBot.define do
+  sequence(:body) { |n| "answer body #{n}" }
+
   factory :answer do
-    body { "MyAnswer" }
+    body {generate (:body)}
     ranked { false }
     question
     user
 
     trait :invalid do
       body { nil }
-    end
-
-    trait :ranked_true do
-      ranked { true }
-      body { "Ranked answer" }
     end
 
     trait :with_attachments do

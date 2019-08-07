@@ -98,6 +98,7 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     context 'with valid attributes' do
+
       it 'assigns the requested question to @question' do
         patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
         expect(assigns(:question)).to eq question
@@ -116,13 +117,15 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+      let!(:question_attributes) {attributes_for(:question, :invalid)}
+      before { patch :update, params: { id: question, question: question_attributes }, format: :js
       }
       it 'does not change the question' do
+        old_question = question.dup
         question.reload
 
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect(question.title).to eq old_question.title
+        expect(question.body).to eq old_question.body
       end
 
       it 're-renders edit view' do
@@ -135,7 +138,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it "can't update the question." do
         old_question = question.dup
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body'} }
+
         question.reload
 
         expect(question.title).to eq old_question.title

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'User can delete Question Links. ' do
+feature 'User can delete Answer Links. ' do
   given(:user) { create(:user) }
-  given!(:question) { create(:question, :with_answers) }
-  given!(:answer) {question.answers.first}
+  given!(:answer) {create(:answer)}
+  given!(:question) { create(:question, answers: [answer]) }
   given!(:link) {create(:link, linkable: answer)}
 
   scenario 'Authenticated author CAN delete a link' do

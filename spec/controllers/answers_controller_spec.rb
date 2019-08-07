@@ -124,7 +124,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #star' do
     let!(:question) {create(:question)}
-    let!(:ranked_answer) {create(:answer, :ranked_true, question: question)}
+    let!(:ranked_answer) {create(:answer, ranked: true, question: question)}
     let!(:not_ranked_answer) {create(:answer, question: question)}
     before{ login(question.user)}
 

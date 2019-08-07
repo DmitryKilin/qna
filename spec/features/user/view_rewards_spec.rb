@@ -4,7 +4,7 @@ feature 'User can see his rewards' do
   given!(:question) {create(:question, :with_attachments)}
   given!(:user) {question.user}
   given!(:prize){create(:prize, question: question, user: user)}
-  given!(:answer){create(:answer, :ranked_true, user: user)}
+  given!(:answer){create(:answer, ranked: true, user: user)}
 
   scenario 'Authorised user can see his rewards' do
     sign_in(user)

@@ -18,4 +18,64 @@ RSpec.describe Answer, type: :model do
   it 'have many attached file' do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
-end
+
+  describe  '#rank'do
+    let!(:question) {create(:question_with_answers, first_ranked: true)}
+    let!(:user) {question.user}
+    let!(:prize){create(:prize, question: question)}
+    let!(:answer_first) {question.answers.first}
+    let!(:answer_second) {question.answers.second}
+
+
+    it { is_expected.to respond_to(:rank) }
+
+    it 'It flags the ranked attribute' do
+      # expect(answer_first.ranked).to be_truthy
+      # expect(answer_second.ranked).to be_falsey
+
+      answer_second.rank
+
+      answer_first.reload
+      answer_second.reload
+
+      expect(answer_first.ranked).to be_falsey
+      expect(answer_second.ranked).to be_truthy
+    end
+
+    it 'Assignes the Prize User attribute' do
+      expect(prize.user).to be_nil
+      answer_second.rank
+      prize.reload
+      expect(prize.user).to eq(answer_second.user)
+    end
+  end
+
+  describe  '#unrank'do
+    let!(:question) {create(:question_with_answers, first_ranked: true)}
+    let!(:user) {question.user}
+    let!(:answer_first) {question.answers.first}
+    let!(:answer_second) {question.answers.second}
+    let!(:prize){create(:prize, question: question, user: answer_first.user)}
+
+
+    it { is_expected.to respond_to(:unrank) }
+
+    it 'It unflags the ranked attribute' do
+      answer_first.unrank
+
+      answer_first.reload
+      answer_second.reload
+
+      expect(answer_first.ranked).to be_falsey
+      expect(answer_second.ranked).to be_falsey
+    end
+
+    it 'Assignes nil to the Prize User attribute' do
+      # expect(prize.user).to eq(answer_first.user)
+      answer_first.unrank
+      prize.reload
+      expect(prize.user).to be_nil
+    end
+  end
+
+  end

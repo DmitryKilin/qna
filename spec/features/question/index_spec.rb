@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'Пользователь может просматривать список вопросов' do
-  given(:questions) {create_list(:question, 3,  :sequence)}
+  given(:questions) {create_list(:question, 3)}
 
   scenario 'All visitors can view questions list' do
     visit questions_path(questions)
