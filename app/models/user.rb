@@ -16,9 +16,4 @@ class User < ApplicationRecord
   def attachment_owner?(file)
     author?(Object.const_get(file.record_type).find(file.record_id))
   end
-
-  def rewarded_answers
-    self.answers.ranked
-  end
-
 end
