@@ -34,6 +34,10 @@ class Answer < ApplicationRecord
     end
   end
 
+  def ranked?
+    self.ranked
+  end
+
   private
 
   def ranked_exclusivity

@@ -38,8 +38,8 @@ RSpec.describe Answer, type: :model do
       answer_first.reload
       answer_second.reload
 
-      expect(answer_first.ranked).to be_falsey
-      expect(answer_second.ranked).to be_truthy
+      expect(answer_first).not_to be_ranked
+      expect(answer_second).to be_ranked
     end
 
     it 'Assignes the Prize User attribute' do
@@ -66,8 +66,8 @@ RSpec.describe Answer, type: :model do
       answer_first.reload
       answer_second.reload
 
-      expect(answer_first.ranked).to be_falsey
-      expect(answer_second.ranked).to be_falsey
+      expect(answer_first).not_to be_ranked
+      expect(answer_second).not_to be_ranked
     end
 
     it 'Assignes nil to the Prize User attribute' do
@@ -78,4 +78,4 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  end
+end
