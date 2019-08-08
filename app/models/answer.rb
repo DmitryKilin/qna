@@ -29,8 +29,8 @@ class Answer < ApplicationRecord
 
   def unrank
     self.transaction do
-      question.prize&.update(user: nil)
-      update(ranked: false)
+      question.prize&.update!(user: nil)
+      update!(ranked: false)
     end
   end
 

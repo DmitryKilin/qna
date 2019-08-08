@@ -30,8 +30,8 @@ RSpec.describe Answer, type: :model do
     it { is_expected.to respond_to(:rank) }
 
     it 'It flags the ranked attribute' do
-      # expect(answer_first.ranked).to be_truthy
-      # expect(answer_second.ranked).to be_falsey
+      expect(answer_first).to be_ranked
+      expect(answer_second).not_to be_ranked
 
       answer_second.rank
 
@@ -43,7 +43,7 @@ RSpec.describe Answer, type: :model do
     end
 
     it 'Assignes the Prize User attribute' do
-      # expect(prize.user).to be_nil
+      expect(prize.user).to be_nil
       answer_second.rank
       prize.reload
       expect(prize.user).to eq(answer_second.user)
@@ -71,7 +71,7 @@ RSpec.describe Answer, type: :model do
     end
 
     it 'Assignes nil to the Prize User attribute' do
-      # expect(prize.user).to eq(answer_first.user)
+      expect(prize.user).to eq(answer_first.user)
       answer_first.unrank
       prize.reload
       expect(prize.user).to be_nil
