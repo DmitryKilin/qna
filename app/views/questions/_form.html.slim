@@ -9,6 +9,9 @@ p
   = link_to 'Delete', question_path(@question), method: :delete, class: "btn btn-outline-primary"
   = link_to 'Edit', '#', class: "btn btn-outline-primary edit-question-link", data: {question_id: @question.id}
 
+.poll
+  h3= 'Poll: '
+  =render 'votes/vote', votable_model: @question
 .reward
   h3= 'Prize: '
   =render @question.prize unless @question.prize.nil?

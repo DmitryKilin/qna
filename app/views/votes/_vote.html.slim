@@ -1,0 +1,3 @@
+= link_to 'Vote UP', polymorphic_path( votable_model, action: :vote_up), class: "btn btn-outline-primary", remote: true
+strong= votable_model.amount
+= link_to 'Vote DOWN', polymorphic_path( votable_model, action: :vote_down), class: "btn btn-outline-primary", remote: true

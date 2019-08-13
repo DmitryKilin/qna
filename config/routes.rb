@@ -3,6 +3,13 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'questions#index'
 
+  concern :votable do
+    member do
+      post :vote_up
+      post :vote_down
+    end
+  end
+
   resources :files, only: :destroy, as: 'delete_file'
   resources :links, only: :destroy, as: 'delete_link'
 
@@ -10,8 +17,8 @@ Rails.application.routes.draw do
     get :rewards, on: :member
   end
 
-  resources :questions do
-    resources :answers, only: %i[ destroy create show update], shallow: true do
+  resources :questions, concerns: :votable do
+    resources :answers, only: %i[ destroy create show update], shallow: true, concerns: :votable  do
       member do
         patch :star
         patch :unstar
