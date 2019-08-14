@@ -1,4 +1,7 @@
 class Answer < ApplicationRecord
+
+  include Votable
+
   belongs_to :question, inverse_of: :answers
   belongs_to :user, inverse_of: :answers
   has_many :links, as: :linkable , dependent: :destroy

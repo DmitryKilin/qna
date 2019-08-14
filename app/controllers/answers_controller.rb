@@ -3,6 +3,8 @@ class AnswersController < ApplicationController
   before_action :find_question, only: %i[new create]
   before_action :find_answer, only: %i[show destroy update star unstar]
 
+  include Voted
+
   def destroy
     @answer.delete if current_user.author?(@answer)
   end

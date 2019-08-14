@@ -6,6 +6,8 @@ div class='answer-#{answer.id}'
       -else
         = image_tag( "star.png", height: 40, alt: 'star', id: "img-reward" )
     = answer.body
+    .poll
+      =render 'votes/vote', votable_model: answer
     .links
       = render partial: '/links/links', object: answer, as: "item"
 

@@ -6,7 +6,7 @@ $(document).on('turbolinks:load', function () {
         var pollResult = xhr['pollResult'];
 
         var elID = '#amount' + '-' + votableType + '-' + votableId;
-
+console.log( elID );
         $( elID ).html(pollResult);
     });
 });

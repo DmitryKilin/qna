@@ -16,19 +16,22 @@ module Voted
   end
 
   def obj_votable
-    @obj ||= model_klass.find(params[:id])
+    model_klass.find(params[:id])
   end
 
   def make_vote(method)
-    obj_votable
-    puts 'ОТЛАДКА: ' + @obj.class.name.downcase + " " + method.to_s
+    votable = obj_votable
 
-    return head :forbidden if current_user&.author?(@obj)
+    puts 'ОТЛАДКА: ' + votable.user_id.to_s
+    puts 'ОТЛАДКА: ' + current_user.id.to_s
+    puts current_user&.author?(votable)
 
-    if @obj.send(method, current_user)
-      render json: { votableType: @obj.class.name.downcase,
-                     votableId: @obj.id,
-                     pollResult: @obj.amount }
+    return head :forbidden if current_user&.author?(votable)
+
+    if votable.send(method, current_user)
+      render json: { votableType: votable.class.name.downcase,
+                     votableId: votable.id,
+                     pollResult: votable.amount }
     else
       head :forbidden
     end
