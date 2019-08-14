@@ -10,7 +10,7 @@ feature 'It can to vote. ' do
     expect( page ).to have_selector( '.poll' )
   end
 
-  describe 'Any authenticated user EXCEPT author' do
+  describe 'Any authenticated user EXCEPT author', js: true do
     background do
       sign_in(some_voter)
       visit question_path( question )
@@ -18,14 +18,13 @@ feature 'It can to vote. ' do
 
     scenario 'Can vote up. ' do
       click_on 'Vote UP'
-
       within '.poll' do
         expect(page).to have_content '1'
       end
     end
 
     scenario 'Can vote down. ' do
-      click_on 'Vote UP'
+      click_on 'Vote DOWN'
 
       within '.poll' do
         expect(page).to have_content '-1'
@@ -58,11 +57,6 @@ feature 'It can to vote. ' do
 
       click_on 'Vote DOWN'
       within '.poll' do
-        expect(page).to have_content '1'
-      end
-
-      click_on 'Vote DOWN'
-      within '.poll' do
         expect(page).to have_content '0'
       end
 
@@ -71,7 +65,5 @@ feature 'It can to vote. ' do
         expect(page).to have_content '-1'
       end
     end
-
   end
-
 end
