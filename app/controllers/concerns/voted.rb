@@ -21,13 +21,14 @@ module Voted
 
   def make_vote(method)
     obj_votable
+    puts 'ОТЛАДКА: ' + @obj.class.name.downcase + " " + method.to_s
 
     return head :forbidden if current_user&.author?(@obj)
 
     if @obj.send(method, current_user)
       render json: { votableType: @obj.class.name.downcase,
                      votableId: @obj.id,
-                     PollRezult: @obj.amount }
+                     pollResult: @obj.amount }
     else
       head :forbidden
     end
