@@ -21,10 +21,6 @@ module Votable
 
   private
 
-  def find_prev_vote(voter)
-    votes.find_by(user: voter)
-  end
-
   def opinion_changed?( prev_definition, new_definition )
     ( prev_definition + new_definition ).zero?
   end
@@ -32,7 +28,7 @@ module Votable
   def vote(voter, option)
     return false if voter.author?(self)
 
-    prev_vote = find_prev_vote(voter)
+    prev_vote = votes.find_by(user: voter)
     if prev_vote
       prev_vote.delete if opinion_changed?(prev_vote.definition, DEFINITIONS[option])
     else
