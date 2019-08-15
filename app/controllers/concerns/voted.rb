@@ -11,16 +11,8 @@ module Voted
 
   private
 
-  def model_klass
-    controller_name.classify.constantize
-  end
-
-  def obj_votable
-    model_klass.find(params[:id])
-  end
-
   def make_vote(method)
-    votable = obj_votable
+    votable = controller_name.classify.constantize.find(params[:id])
 
     return head :forbidden if current_user&.author?(votable)
 

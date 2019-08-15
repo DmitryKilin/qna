@@ -5,11 +5,6 @@ feature 'It can to vote. ' do
   given(:question_author) { create(:user) }
   given!(:question) { create(:question, user: question_author) }
 
-  scenario 'A user can see poll result. ', js: true do
-    visit question_path( question )
-    expect( page ).to have_selector( '.poll' )
-  end
-
   describe 'Any authenticated user EXCEPT author', js: true do
     background do
       sign_in(some_voter)

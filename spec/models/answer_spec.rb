@@ -19,8 +19,6 @@ RSpec.describe Answer, type: :model do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
-  it_behaves_like 'votable'
-
   describe  '#rank'do
     let!(:question) {create(:question_with_answers, first_ranked: true)}
     let!(:user) {question.user}

@@ -36,7 +36,7 @@ module Votable
     if prev_vote
       prev_vote.delete if opinion_changed?(prev_vote.definition, DEFINITIONS[option])
     else
-      votes.create(user: voter, definition: DEFINITIONS[option])
+      votes.create!(user: voter, definition: DEFINITIONS[option])
     end
   end
 end

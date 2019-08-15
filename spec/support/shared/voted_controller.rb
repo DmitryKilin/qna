@@ -16,6 +16,12 @@ RSpec.shared_examples 'voted' do
 
       expect(response).to have_http_status 403
     end
+
+    it 'unauthorized can NOT vote up' do
+      post :vote_up, params: { id: model }, format: :json
+
+      expect(response).to have_http_status 401
+    end
   end
 
   describe 'POST #vote_down' do
@@ -32,6 +38,12 @@ RSpec.shared_examples 'voted' do
       post :vote_down, params: { id: model }, format: :json
 
       expect(response).to have_http_status 403
+    end
+
+    it 'unauthorized can NOT vote down' do
+      post :vote_up, params: { id: model }, format: :json
+
+      expect(response).to have_http_status 401
     end
   end
 end
