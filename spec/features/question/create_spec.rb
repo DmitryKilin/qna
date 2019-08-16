@@ -9,26 +9,38 @@ feature 'Пользователь может создавать вопрос.', 
     given(:search_engine_url1) {'https://yandex.ru'}
     given(:my_gist) {"https://gist.github.com/DmitryKilin/0f6260bee40dac34d43ecc48caa06913"}
 
-    scenario 'Authenticated user asks a question with links', js: true do
-      sign_in(user)
-
-      visit questions_path
-      click_on 'Ask question'
-
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'some text'
-
-      within '#links' do
-        fill_in 'Link name', with: 'Favorite searching1'
-        fill_in 'Url', with: search_engine_url1
+    scenario 'question appears on another users page', js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
       end
 
-      click_on 'Ask'
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
 
-      expect(page).to have_content "Your question successfully created"
-      expect(page).to have_content 'Test question'
-      expect(page).to have_content 'some text'
-      expect(page).to have_link 'Favorite searching1', href: search_engine_url1
+      Capybara.using_session('user') do
+        click_on 'Ask question'
+
+        fill_in 'Title', with: 'Test question'
+        fill_in 'Body', with: 'some text'
+
+        within '#links' do
+          fill_in 'Link name', with: 'Favorite searching1'
+          fill_in 'Url', with: search_engine_url1
+        end
+
+        click_on 'Ask'
+
+        expect(page).to have_content "Your question successfully created"
+        expect(page).to have_content 'Test question'
+        expect(page).to have_content 'some text'
+        expect(page).to have_link 'Favorite searching1', href: search_engine_url1
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Test question'
+      end
     end
 
     scenario 'Authenticated user asks a question with error', js: true do

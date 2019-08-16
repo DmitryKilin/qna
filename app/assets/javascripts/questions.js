@@ -4,4 +4,13 @@ $(document).on('turbolinks:load', function(){
         $(this).hide();
         $('form#edit-question').removeClass('hidden');
     })
+
+    App.cable.subscriptions.create('QuestionChannel', {
+        connected: function () {
+            return this.perform('follow');
+        },
+        received: function (data) {
+            $('.questions').append(data);
+        }
+    });
 });
