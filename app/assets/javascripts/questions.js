@@ -5,13 +5,13 @@ $(document).on('turbolinks:load', function(){
         $('form#edit-question').removeClass('hidden');
     })
 
-    // App.cable.subscriptions.create('QuestionChannel', {
-    //     connected: function () {
-    //         return this.perform('follow');
-    //     },
-    //     received: function (data) {
-    //         console.log(data);
-    //         $('.questions').append(data);
-    //     }
-    // });
+    App.cable.subscriptions.create('QuestionChannel', {
+        connected: function () {
+            return this.perform('follow');
+        },
+        received: function (data) {
+            console.log(data);
+            $('.questions').append(data);
+        }
+    });
 });
