@@ -2,7 +2,7 @@
 
 h1= 'Question: '
 
-.question
+.question *{ 'data-question-id': @question.id }
   = render 'form'
 p ----------------------------------------
 h2= "Answers: "

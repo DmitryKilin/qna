@@ -41,12 +41,14 @@ gem "aws-sdk-s3", require: false
 gem 'valid_url'
 gem 'mini_magick'
 gem 'image_processing', '~> 1.2'
+gem 'gon'
 
 # UI
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.3.1'
 gem "cocoon"
 gem 'gist-embed-rails'
+gem 'skim'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

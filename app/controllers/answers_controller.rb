@@ -3,6 +3,8 @@ class AnswersController < ApplicationController
   before_action :find_question, only: %i[new create]
   before_action :find_answer, only: %i[show destroy update star unstar]
 
+  after_action :publish_answer, only: %i[create]
+
   include Voted
 
   def destroy
@@ -42,5 +44,25 @@ class AnswersController < ApplicationController
 
   def find_answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    files = []
+    @answer.files.each do |file|
+      files << { id: file.id, url: url_for(file), name: file.filename.to_s }
+    end
+
+    links = []
+    @answer.links.each do |link|
+      hash = { id: link.id, name: link.name, url: link.url }
+      hash[:gist] = link.gist(link.url) if link.gist?
+      links << hash
+    end
+
+    ActionCable.server.broadcast(
+        "answers", { answer: @answer, links: links, files: files }
+    )
   end
 end

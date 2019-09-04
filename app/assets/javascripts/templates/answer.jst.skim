@@ -1,0 +1,22 @@
+div class='answer-#{@answer.id}'
+  p = @answer.body
+
+.poll
+  a class="btn btn-outline-primary vote" data-remote='true' data-method='post' href="/answers/#{@answer.id}/vote_up" Vote UP
+  strong id="amount-answer-#{@answer.id}" 0
+  a class="btn btn-outline-primary vote" data-remote='true' data-method='post' href="/answers/#{@answer.id}/vote_down" Vote DOWN
+
+.links
+- if @links.length != 0
+  ul
+    - for link in @links
+      - if link.gist?
+        p = link.gist_id
+      li class="link-#{link.id}"
+        a href="#{link.url}" #{link.name}
+- if @files.length != 0
+    - for file in @files
+      p class="storage-#{file.id}"
+        a href="#{file.url}" #{file.name}
+
+a href="/answers/#{@answer.id}/star" class="btn btn-outline-secondary button-star" data-remote='true' data-method="patch" 🌟 Star
