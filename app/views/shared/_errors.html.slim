@@ -1,5 +1,8 @@
 - if resource&.errors.present?
-  b= "#{resource.errors.count} error(s) detected: "
-  ul
-    -resource.errors.full_messages.each do |message|
-      li= message
+  div class=%w(alert alert-danger alert-dismissible fade show)
+    strong= "#{resource.errors.count} error(s) detected: "
+    ul
+      -resource.errors.full_messages.each do |message|
+        li= message
+    button type="button" class="close" data-dismiss="alert" aria-label="Close"
+      span aria-hidden="true" &times;
