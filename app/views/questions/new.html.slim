@@ -1,7 +1,5 @@
 h1= "New Question"
 
-.errors
-
 = form_with model: @question do |f|
   .form-group
     = f.label :title
@@ -9,12 +7,6 @@ h1= "New Question"
   .form-group
     = f.label :body
     = f.text_area :body, class: "form-control"
-  / .form-group
-  /   = f.label :reward
-  /   = f.file_field :reward, class: "btn btn-outline-primary"
-  / .form-group
-  /   = f.label :praise
-  /   = f.text_field :praise, class: "form-control"
   h2= 'Files:'
   .form-group
     = f.label :files

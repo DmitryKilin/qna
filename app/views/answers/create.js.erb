@@ -1,4 +1,4 @@
-$('.errors').html('<%= render 'shared/errors', resource: @answer %>');
+$('.notifications').html('<%= render 'shared/errors', resource: @answer %>');
 <% if @answer.persisted? %>
   $('.answers').append('<%= j render @answer %>');
   $('textarea, #answer_body').val(' ');

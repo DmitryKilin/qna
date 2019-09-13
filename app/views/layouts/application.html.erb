@@ -19,13 +19,12 @@
   <body>
     <header class="sticky-top">
       <%= render 'shared/nav_user' %>
+      <div class="notifications"></div>
     </header>
 
     <div class="container justify-content-center mt-3">
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
-      <div class="errors"></div>
-
       <%= yield %>
     </div>
 
