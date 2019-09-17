@@ -6,6 +6,8 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: %i[create]
 
   include Voted
+  include Commented
+
 
   def destroy
     @answer.delete if current_user.author?(@answer)

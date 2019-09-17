@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   end
 
   concern :commentable do
+    # resources :comments, only: %i[create], as: 'comment_out'
     post :comment, on: :member
   end
 

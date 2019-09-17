@@ -10,7 +10,6 @@ $(document).on('turbolinks:load', function(){
             return this.perform('follow');
         },
         received: function (data) {
-            console.log(data);
             $('.questions').append(data);
         }
     });

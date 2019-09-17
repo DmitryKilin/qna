@@ -3,10 +3,10 @@
     = render resource.comments
 
 - if user_signed_in?
-  = form_with model: [Comment.new, Question], url: comment_question_path,
+  = form_with url: polymorphic_path(resource, action: :comment),
           method: :post,
           class: 'new-comment' do |f|
     p
       = f.label :comment_body
       = f.text_area :comment_body
-    p= f.submit 'Comment'
+    p = f.submit 'Comment'

@@ -1,20 +1,8 @@
 $(document).on('turbolinks:load', function () {
-        $('form.new-comment').on('ajax:success', function (e) {
-            var xhr = e.detail[0];
-            var $divComments = $('.' + xhr['commented_resource'] + ' .comments .comments-list');
-
-            $divComments.append(
-                '<div class="comment" id="comment-' + xhr['comment_id'] + '">' +
-                    '<p>' + xhr['comment_body'] + '</p>' +
-                    '<p class="small">' + xhr['user_email'] + '</p>' +
-                '</div>'
-                );
-
-        })
+        $('form.new-comment')
             .on('ajax:error', function (e) {
-                var errors = e.detail[0].body;
+                var errors = e.detail[0];
                 var $divErrors = $('.notifications');
-                console.log(errors.length);
 
                 $divErrors.children().remove();
                 $divErrors.prepend(
@@ -30,6 +18,25 @@ $(document).on('turbolinks:load', function () {
                         '</button>' +
                     '</div>'
                 );
-            })
-    }
-);
+            });
+        App.cable.subscriptions.create('CommentChannel', {
+            connected: function() {
+                return this.perform('follow')
+            },
+            received: appendComment
+        })
+});
+
+function appendComment(data) {
+    var $divComments = $('div[data-' + data['commented_resource'] + '-id="' + data['commented_resource_id'] + '"]' +
+                            ' .comments .comments-list');
+
+    $('.notifications').children().remove();
+
+    $divComments.append(
+        '<div class="comment" id="comment-' + data['comment_id'] + '">' +
+            '<p>' + data['comment_body'] + '</p>' +
+          '<p class="small">' + data['user_email'] + '</p>' +
+        '</div>'
+    );
+}
