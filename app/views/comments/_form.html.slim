@@ -1,6 +1,6 @@
+.comments-list
 - if resource.comments.exists?
-  .comments-list
-    = render resource.comments
+  = render resource.comments
 
 - if user_signed_in?
   = form_with url: polymorphic_path(resource, action: :comment),
