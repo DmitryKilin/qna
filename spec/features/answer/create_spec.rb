@@ -11,28 +11,35 @@ feature 'Пользователь, находясь на странице воп
   given(:search_engine_url2) {'https://google.ru'}
 
   describe 'Authenticated user ' do
-    scenario 'create an answer with links using the question show page', js: true do
-      sign_in(question.user)
-
-      visit question_path(question)
-      fill_in(:answer_body, with: 'Some new answer')
-
-      within '#links' do
-        fill_in 'Link name', with: 'Favorite searching1'
-        fill_in 'Url', with: search_engine_url1
+    scenario 'create an answer and it appears on all opened subscribers question show pages', js: true do
+      Capybara.using_session('user') do
+        sign_in(question.user)
+        visit question_path(question)
       end
 
-      within '#links' do
-        fill_in 'Link name', with: 'Favorite searching1'
-        fill_in 'Url', with: search_engine_url1
+      Capybara.using_session('guest') do
+        visit question_path(question)
       end
 
-      click_on 'Answer'
+      Capybara.using_session('user') do
+        fill_in(:answer_body, with: 'Some new answer')
 
-      expect(current_path).to eq question_path(question)
+        within '#links' do
+          fill_in 'Link name', with: 'Favorite searching1'
+          fill_in 'Url', with: search_engine_url1
+        end
 
-      within '.answers' do
-        expect(page).to have_content 'Some new answer'
+        click_on 'Answer'
+
+        expect(current_path).to eq question_path(question)
+
+        within '.answers' do
+          expect(page).to have_content 'Some new answer'
+        end
+
+        Capybara.using_session('guest') do
+          expect(page).to have_content 'Some new answer'
+        end
       end
     end
 

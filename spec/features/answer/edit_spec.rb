@@ -19,7 +19,6 @@ feature 'User can edit his answer.' do
 
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
-        expect(page).to_not have_selector 'textarea'
         expect(page).to have_link('rails_helper.rb')
         expect(page).to have_link('spec_helper.rb')
       end
@@ -33,7 +32,7 @@ feature 'User can edit his answer.' do
         click_on 'Save'
       end
 
-      within '.errors' do
+      within '.notifications' do
         expect(page).to have_content 'error(s) detected:'
       end
     end
