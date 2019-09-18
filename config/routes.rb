@@ -10,9 +10,12 @@ Rails.application.routes.draw do
     end
   end
 
-  concern :commentable do
+  # concern :commentable do
     # resources :comments, only: %i[create], as: 'comment_out'
-    post :comment, on: :member
+  #   post :comment, on: :member
+  # end
+  concern :commentable do
+    resource :comments, only: %i[create]
   end
 
   resources :files, only: :destroy, as: 'delete_file'

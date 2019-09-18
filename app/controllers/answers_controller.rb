@@ -6,7 +6,7 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: %i[create]
 
   include Voted
-  include Commented
+  # include Commented
 
 
   def destroy
