@@ -7,6 +7,7 @@ feature 'Пользователь, находясь на странице воп
 
   given(:user) {create(:user, email: 'user@test.com', password: '12345678')}
   given(:question) {create(:question)}
+  given(:question1) {create(:question)}
   given(:search_engine_url1) {'https://yandex.ru'}
   given(:search_engine_url2) {'https://google.ru'}
 
@@ -39,6 +40,32 @@ feature 'Пользователь, находясь на странице воп
 
         Capybara.using_session('guest') do
           expect(page).to have_content 'Some new answer'
+        end
+      end
+    end
+
+    scenario 'create an answer and it does not appear on other opened question', js: true do
+      # Полезно проверить что на странице другого вопроса ответа не появится
+
+      Capybara.using_session('user') do
+        sign_in(question.user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question1)
+      end
+
+      Capybara.using_session('user') do
+        fill_in(:answer_body, with: 'Some new answer')
+        click_on 'Answer'
+
+        within '.answers' do
+          expect(page).to have_content 'Some new answer'
+        end
+
+        Capybara.using_session('guest') do
+          expect(page).to have_no_content 'Some new answer'
         end
       end
     end
