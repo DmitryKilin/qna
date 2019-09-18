@@ -34,8 +34,8 @@ function appendComment(data) {
     $('.notifications').children().remove();
 
     $divComments.append(
-        '<div class="comment" id="comment-' + data['comment_id'] + '">' +
-            '<p>' + data['comment_body'] + '</p>' +
+        '<div class="comment" id="comment-' + data['id'] + '">' +
+            '<p>' + data['body'] + '</p>' +
           '<p class="small">' + data['user_email'] + '</p>' +
         '</div>'
     );

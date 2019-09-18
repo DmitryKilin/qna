@@ -13,7 +13,7 @@ feature 'User can edit his answer.' do
       within '.answers' do
         click_on 'Edit'
 
-        fill_in 'Body', with: 'edited answer'
+        fill_in :answer_body, with: 'edited answer'
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
 
@@ -28,7 +28,7 @@ feature 'User can edit his answer.' do
       within '.answers' do
         click_on 'Edit'
 
-        fill_in 'Body', with: ' '
+        fill_in :answer_body, with: ' '
         click_on 'Save'
       end
 
@@ -41,7 +41,7 @@ feature 'User can edit his answer.' do
       within '.answers' do
         click_on 'Edit'
 
-        fill_in 'Body', with: 'edited answer'
+        fill_in :answer_body, with: 'edited answer'
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
         expect(page).to have_link('Delete file')

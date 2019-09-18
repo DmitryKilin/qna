@@ -6,7 +6,6 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: %i[create]
 
   include Voted
-  # include Commented
 
 
   def destroy
@@ -51,16 +50,12 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
 
-    files = []
-    @answer.files.each do |file|
-      files << { id: file.id, url: url_for(file), name: file.filename.to_s }
+    files = @answer.files.map do |file|
+      { id: file.id, url: url_for(file), name: file.filename.to_s }
     end
 
-    links = []
-    @answer.links.each do |link|
-      hash = { id: link.id, name: link.name, url: link.url }
-      hash[:gist] = link.gist(link.url) if link.gist?
-      links << hash
+    links = @answer.links.map do |link|
+      { id: link.id, name: link.name, url: link.url, gist: (link.gist(link.url) if link.gist?) }
     end
 
     ActionCable.server.broadcast(

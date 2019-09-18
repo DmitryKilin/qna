@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
     after_action :publish_comment, only: :create
 
     def create
-      @comment = commented_resource_instance.comments.new(body: comment_params[:comment_body])
+      @comment = commented_resource_instance.comments.new(body: comment_params[:body])
       @comment.user = current_user
       if @comment.save
         render json: comment_data
@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
     private
 
     def comment_params
-      params.require(:comment).permit(:comment_body)
+      params.require(:comment).permit(:body)
     end
 
     def resource_id
@@ -34,8 +34,8 @@ class CommentsController < ApplicationController
     end
 
     def comment_data
-      {comment_id: @comment.id,
-       comment_body: @comment.body,
+      {id: @comment.id,
+       body: @comment.body,
        user_email: current_user.email,
        commented_resource: @comment.commentable_type.downcase,
        commented_resource_id: @comment.commentable_id

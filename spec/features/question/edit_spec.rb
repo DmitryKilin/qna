@@ -23,7 +23,7 @@ feature 'User can edit his question.' do
       within '.question' do
         click_on 'Edit'
 
-        fill_in 'Body', with: 'edited question body'
+        fill_in :question_body, with: 'edited question body'
         fill_in 'Title', with: 'edited question title'
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 
@@ -54,7 +54,7 @@ feature 'User can edit his question.' do
       within '.question' do
         click_on 'Edit'
 
-        fill_in 'Body', with: 'edited question body'
+        fill_in :question_body, with: 'edited question body'
         fill_in 'Title', with: 'edited question title'
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 
@@ -71,7 +71,7 @@ feature 'User can edit his question.' do
       within '.question' do
         click_on 'Edit'
 
-        fill_in 'Body', with: 'edited question body'
+        fill_in :question_body, with: 'edited question body'
         fill_in 'Title', with: 'edited question title'
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 
@@ -82,7 +82,7 @@ feature 'User can edit his question.' do
     scenario 'edit his answer with errors', js: true do
       within '.question' do
         click_on 'Edit'
-        fill_in 'Body', with: ' '
+        fill_in :question_body, with: ' '
         expect(page).to have_content question.body
       end
     end
