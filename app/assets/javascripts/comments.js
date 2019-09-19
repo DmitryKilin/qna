@@ -23,10 +23,6 @@ function appendComment(data) {
     $('.notifications').children().remove();
 
     $divComments.append(
-        JST ['templates/comment'] ({data: data})
-        // '<div class="comment" id="comment-' + data['id'] + '">' +
-        //     '<p>' + data['body'] + '</p>' +
-        //   '<p class="small">' + data['user_email'] + '</p>' +
-        // '</div>'
+        JST ['templates/comment'] ({comment: data})
     );
 }
