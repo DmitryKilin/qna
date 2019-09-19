@@ -10,10 +10,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # concern :commentable do
-    # resources :comments, only: %i[create], as: 'comment_out'
-  #   post :comment, on: :member
-  # end
   concern :commentable do
     resource :comments, only: %i[create]
   end
@@ -25,8 +21,10 @@ Rails.application.routes.draw do
     get :rewards, on: :member
   end
 
-  resources :questions, concerns: [:votable, :commentable] do
-    resources :answers, only: %i[ destroy create show update], shallow: true, concerns: [:votable, :commentable]  do
+  resources :questions, concerns: :votable do
+    resource :comments, only: %i[create]
+    resources :answers, only: %i[ destroy create show update], shallow: true, concerns: :votable  do
+      resource :comments, only: %i[create]
       member do
         patch :star
         patch :unstar
