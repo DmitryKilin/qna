@@ -1,0 +1,5 @@
+div class="alert alert-danger alert-dismissible fade show"
+  strong #{@errors.length} error(s) detected:
+  ul =$.each(@errors, (index, value)-> '<li>' + index + value + '</li>')
+  button.close type="button" data-dismiss="alert" aria-label="Close"
+    span aria-hidden="true" &times

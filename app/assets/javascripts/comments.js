@@ -1,23 +1,12 @@
 $(document).on('turbolinks:load', function () {
         $('form.new-comment')
             .on('ajax:error', function (e) {
-                var errors = e.detail[0];
+                // var errors = e.detail[0];
                 var $divErrors = $('.notifications');
+                var errorBanner = JST ['templates/error']({errors: e.detail[0]});
 
                 $divErrors.children().remove();
-                $divErrors.prepend(
-                    '<div class="alert alert-danger alert-dismissible fade show"' +
-                        '<stong>' + errors.length + ' error(s) detected: ' + '</stong>' +
-                        '<ul>' +
-                            $.each(errors, function(index, value) {
-                                return '<li>' + index + value + '</li>'
-                            }) +
-                        '</ul>' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                            '<span aria-hidden="true">' + '&times' + '</span>' +
-                        '</button>' +
-                    '</div>'
-                );
+                $divErrors.prepend(errorBanner);
             });
         App.cable.subscriptions.create('CommentChannel', {
             connected: function() {
@@ -34,9 +23,10 @@ function appendComment(data) {
     $('.notifications').children().remove();
 
     $divComments.append(
-        '<div class="comment" id="comment-' + data['id'] + '">' +
-            '<p>' + data['body'] + '</p>' +
-          '<p class="small">' + data['user_email'] + '</p>' +
-        '</div>'
+        JST ['templates/comment'] ({data: data})
+        // '<div class="comment" id="comment-' + data['id'] + '">' +
+        //     '<p>' + data['body'] + '</p>' +
+        //   '<p class="small">' + data['user_email'] + '</p>' +
+        // '</div>'
     );
 }

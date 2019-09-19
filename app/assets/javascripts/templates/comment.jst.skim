@@ -1,0 +1,3 @@
+.comment id="comment-#{@data.id}"
+  p =@data.body
+  p class="small" =@data.user_email
