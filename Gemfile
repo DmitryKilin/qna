@@ -42,6 +42,8 @@ gem 'valid_url'
 gem 'mini_magick'
 gem 'image_processing', '~> 1.2'
 gem 'gon'
+gem 'omniauth'
+gem 'omniauth-github'
 
 # UI
 gem 'jquery-rails'
