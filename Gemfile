@@ -44,6 +44,8 @@ gem 'image_processing', '~> 1.2'
 gem 'gon'
 gem 'omniauth'
 gem 'omniauth-github'
+# gem 'omniauth-yandex'
+gem 'omniauth-vkontakte', '~> 1.5'
 
 # UI
 gem 'jquery-rails'
