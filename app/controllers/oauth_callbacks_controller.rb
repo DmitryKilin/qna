@@ -3,9 +3,10 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     oauth('GitHub')
   end
 
-  # def github
-  #   render json: request.env['omniauth.auth']
-  # end
+  def vkontakte
+    # render json: request.env['omniauth.auth']
+    oauth('vkontakte')
+  end
 
   private
 
