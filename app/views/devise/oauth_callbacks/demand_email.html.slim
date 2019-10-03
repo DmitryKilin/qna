@@ -1,0 +1,7 @@
+h2 To bind your authorization with your account, please, enter your email for confirmation letter.
+
+= form_with  url: "/send_confirmation", method: "get", local: true do |f|
+  .form-group
+    = f.label :email
+    = f.text_field :email, class: "form-control", type: "email"
+  = f.submit 'Send', class: "btn btn-outline-primary"
