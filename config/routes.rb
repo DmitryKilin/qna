@@ -4,6 +4,11 @@ Rails.application.routes.draw do
 
   root to: 'questions#index'
 
+  devise_scope :user do
+    get :demand_email, to: 'oauth_callbacks#demand_email'
+    get :send_confirmation, to: 'oauth_callbacks#send_confirmation'
+  end
+
   concern :votable do
     member do
       post :vote_up
