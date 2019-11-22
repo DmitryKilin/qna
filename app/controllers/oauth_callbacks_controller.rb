@@ -4,7 +4,6 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def vkontakte
-    # render json: request.env['omniauth.auth']
     oauth('vkontakte')
   end
 
@@ -13,6 +12,7 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def send_confirmation
+    # Put code here to send confirmation email
     render inline: "<h1>Email sent to:</h1> <%= params[:email] %>"
   end
 
