@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
 
-  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks'}
+  devise_for :users, controllers: {
+      omniauth_callbacks: 'oauth_callbacks',
+      confirmations: 'oauth_confirmations'
+  }
 
   root to: 'questions#index'
 
   devise_scope :user do
-    get :demand_email, to: 'oauth_callbacks#demand_email'
-    get :send_confirmation, to: 'oauth_callbacks#send_confirmation'
+    get :demand_email, to: 'oauth_confirmations#demand_email'
+    get :send_confirmation, to: 'oauth_confirmations#send_confirmation'
   end
 
   concern :votable do

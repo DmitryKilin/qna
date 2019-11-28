@@ -7,22 +7,12 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     oauth('vkontakte')
   end
 
-  def demand_email
-    render "devise/oauth_callbacks/demand_email"
-  end
-
-  def send_confirmation
-    # Put code here to send confirmation email
-    render inline: "<h1>Email sent to:</h1> <%= params[:email] %>"
-  end
-
   private
 
   def oauth(provider)
-    oauth = request.env['omniauth.auth']
+  oauth = request.env['omniauth.auth']
 
     if !oauth['info'].has_key?('email') || oauth['info']['email'].blank?
-      # session["devise.oauth_data"] = request.env["omniauth.auth"]
       redirect_to demand_email_path
       return
     end
