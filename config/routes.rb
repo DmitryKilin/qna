@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
   resources :questions, concerns: :votable do
     resource :comments, only: %i[create]
-    resources :answers, only: %i[ destroy create show update], shallow: true, concerns: :votable  do
+    resources :answers, only: %i[destroy create show update], shallow: true, concerns: :votable  do
       resource :comments, only: %i[create]
       member do
         patch :star

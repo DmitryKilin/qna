@@ -46,6 +46,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 # gem 'omniauth-yandex'
 gem 'omniauth-vkontakte', '~> 1.5'
+gem 'cancancan'
 
 # UI
 gem 'jquery-rails'
