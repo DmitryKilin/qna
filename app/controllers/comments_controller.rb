@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
   after_action :publish_comment, only: :create
 
+  authorize_resource
+
   def create
     @comment = commented_resource_instance.comments.new(body: comment_params[:body])
     @comment.user = current_user
