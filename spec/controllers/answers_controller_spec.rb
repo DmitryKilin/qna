@@ -21,10 +21,6 @@ RSpec.describe AnswersController, type: :controller do
     context 'With valid attributes ' do
       before { login(user) }
 
-      #Так хорошо работает question_controller_spec, здесь же совершенно не могу понять откуда ошибка:
-      #CanCan::AuthorizationNotPerformed: This action failed the check_authorization because it does not authorize_resource. Add skip_authorization_check to bypass this check.
-
-
       it 'saves a new answer in the database' do
         expect { post :create, params: { question_id: question, answer: new_answer_attributes }, format: :js }.to change(question.answers, :count).by(1)
       end
