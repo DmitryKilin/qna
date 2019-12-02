@@ -7,6 +7,7 @@ class AnswersController < ApplicationController
 
   include Voted
 
+  authorize_resource
 
   def destroy
     @answer.delete if current_user.author?(@answer)
