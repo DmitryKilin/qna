@@ -37,6 +37,6 @@ class Ability
       !user.author? poll
     end
 
-    can [:create, :destroy], Link, linkable: { user_id: user.id }
+    can %i[create destroy], Link, linkable: { user_id: user.id }
   end
 end
