@@ -1,17 +1,22 @@
 Rails.application.routes.draw do
 
-  devise_for :users
+  devise_for :users, controllers: {
+      omniauth_callbacks: 'oauth_callbacks',
+      confirmations: 'oauth_confirmations'
+  }
+
   root to: 'questions#index'
+
+  devise_scope :user do
+    get :demand_email, to: 'oauth_confirmations#demand_email'
+    get :send_confirmation, to: 'oauth_confirmations#send_confirmation'
+  end
 
   concern :votable do
     member do
       post :vote_up
       post :vote_down
     end
-  end
-
-  concern :commentable do
-    resource :comments, only: %i[create]
   end
 
   resources :files, only: :destroy, as: 'delete_file'
