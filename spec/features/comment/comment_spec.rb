@@ -1,12 +1,11 @@
 require 'rails_helper'
 
 feature 'It can a comments be added. ' do
-  given(:user1) {create(:user)}
-  given(:user2) {create(:user)}
-  given(:question) {create(:question)}
-  given(:question1) {create(:question)}
-  given(:answer) {create(:answer)}
-
+  given(:user1) { create(:user) }
+  given(:user2) { create(:user) }
+  given(:question) { create(:question) }
+  given(:question1) { create(:question) }
+  given(:answer) { create(:answer) }
 
   scenario 'Authorized user can comment question and all subscribes can see it.', js: true do
     Capybara.using_session('user1') do
@@ -85,8 +84,7 @@ feature 'It can a comments be added. ' do
         expect(page).to have_no_content 'My comment'
       end
     end
-end
-
+  end
 
   scenario 'It shows an error message when user tries add a blank comment. ', js: true do
     sign_in(user1)
