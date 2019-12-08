@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'profiles/me'
+  use_doorkeeper
   devise_for :users, controllers: {
       omniauth_callbacks: 'oauth_callbacks',
       confirmations: 'oauth_confirmations'
@@ -34,6 +36,15 @@ Rails.application.routes.draw do
         patch :star
         patch :unstar
       end
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [] do
+        get :me, on: :collection
+      end
+      resources :questions, only: :index
     end
   end
 
