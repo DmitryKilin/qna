@@ -18,11 +18,8 @@ describe 'Questions API ', type: :request do
       let(:question) { questions.first }
       let(:question_response) { json['questions'].first }
       let!(:answers) { create_list(:answer, 3, question: question) }
-      before { get '/api/v1/questions', params: { access_token: access_token.token }, headers: headers }
+      before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'returns 200 status ' do
-        expect(response).to be_successful
-      end
       it 'returns list of questions ' do
         expect(json['questions'].size).to eq 2
       end
