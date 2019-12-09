@@ -6,8 +6,8 @@ FactoryBot.define do
   end
 
   factory :question do
-    title {generate :title}
-    body {'MyText'}
+    title { generate :title }
+    body { 'MyText' }
     user
 
     factory :question_with_answers do
@@ -21,9 +21,11 @@ FactoryBot.define do
       end
     end
 
-
     trait :with_attachments do
-      files { [fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper/rb')] }
+      files do
+        [fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper/rb'),
+         fixture_file_upload(Rails.root.join('spec', 'spec_helper.rb'), 'spec_helper/rb')]
+      end
     end
 
     trait :invalid do

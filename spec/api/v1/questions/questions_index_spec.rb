@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Questions API ', type: :request do
+describe 'Questions API #index', type: :request do
   let(:headers) do
     { 'CONTENT_TYPE' => 'application/json',
       'ACCEPT' => 'application/json' }
