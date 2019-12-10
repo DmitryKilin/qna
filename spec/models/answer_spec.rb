@@ -1,31 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
-  it {should belong_to(:question)}
+  it { should belong_to(:question) }
   it { should belong_to(:user).inverse_of(:answers).required }
   it { should have_many(:links).dependent(:destroy) }
 
-
-  it { should validate_presence_of :body}
-  it { should_not allow_value(' ').for(:body)}
+  it { should validate_presence_of :body }
+  it { should_not allow_value(' ').for(:body) }
 
   it { should accept_nested_attributes_for :links }
 
-
-  it { should have_db_column(:question_id).of_type(:integer)  }
+  it { should have_db_column(:question_id).of_type(:integer) }
   it { should have_db_column(:ranked).of_type(:boolean).with_options(default: false) }
 
   it 'have many attached file' do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
-  describe  '#rank'do
-    let!(:question) {create(:question_with_answers, first_ranked: true)}
-    let!(:user) {question.user}
-    let!(:prize){create(:prize, question: question)}
-    let!(:answer_first) {question.answers.first}
-    let!(:answer_second) {question.answers.second}
-
+  describe '#rank' do
+    let!(:question) { create(:question, :with_answers, first_ranked: true) }
+    let!(:user) { question.user }
+    let!(:prize) { create(:prize, question: question) }
+    let!(:answer_first) { question.answers.first }
+    let!(:answer_second) { question.answers.second }
 
     it { is_expected.to respond_to(:rank) }
 
@@ -50,13 +47,12 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  describe  '#unrank'do
-    let!(:question) {create(:question_with_answers, first_ranked: true)}
-    let!(:user) {question.user}
-    let!(:answer_first) {question.answers.first}
-    let!(:answer_second) {question.answers.second}
-    let!(:prize){create(:prize, question: question, user: answer_first.user)}
-
+  describe '#unrank' do
+    let!(:question) { create(:question, :with_answers, first_ranked: true) }
+    let!(:user) { question.user }
+    let!(:answer_first) { question.answers.first }
+    let!(:answer_second) { question.answers.second }
+    let!(:prize) { create(:prize, question: question, user: answer_first.user) }
 
     it { is_expected.to respond_to(:unrank) }
 
@@ -79,5 +75,4 @@ RSpec.describe Answer, type: :model do
   end
 
   it_behaves_like 'votable'
-
 end
