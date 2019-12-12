@@ -1,5 +1,3 @@
-include ActionDispatch::TestProcess
-
 FactoryBot.define do
   factory :prize do
     praise {'You are good!'}
