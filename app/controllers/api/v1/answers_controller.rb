@@ -1,6 +1,6 @@
-class Api::V1::QuestionsController < Api::V1::BaseController
-  authorize_resource class: Question
-  before_action :find_question, only: %i[show show_answers]
+class Api::V1::AnswersController < Api::V1::BaseController
+  authorize_resource class: Answer
+  before_action :find_answer, only: :show
 
   def index
     @questions = Question.all
@@ -9,11 +9,6 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def show
     render json: @question
-  end
-
-  def show_answers
-    @answers = @question&.answers
-    render json: @answers
   end
 
   private

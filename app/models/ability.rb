@@ -18,6 +18,7 @@ class Ability
     can :read, :all
     can :me, User
     can :search, :all
+    can :show_answers, :all
   end
 
   def admin_abilities
