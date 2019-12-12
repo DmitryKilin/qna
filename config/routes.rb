@@ -46,8 +46,8 @@ Rails.application.routes.draw do
       end
       resources :questions, only: %i[index show] do
         get :show_answers, on: :member
-        resources :answers, only: %i[index], shallow: true
       end
+      resources :answers, only: %i[show]
     end
   end
 
