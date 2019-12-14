@@ -5,9 +5,9 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: %i[create]
 
+  authorize_resource
   include Voted
 
-  authorize_resource
 
   def destroy
     @answer.delete if current_user.author?(@answer)

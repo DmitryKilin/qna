@@ -214,7 +214,7 @@ RSpec.describe QuestionsController, type: :controller do
         new_body = new_question_attributes[:body]
 
         expect {
-          post :create, params: {question: new_question_attributes }
+          post :create, params: { question: new_question_attributes }
         }.to change(Question, :count).by(1)
 
         new_question = Question.find_by(title: new_title, body: new_body)

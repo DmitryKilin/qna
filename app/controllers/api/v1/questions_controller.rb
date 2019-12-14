@@ -2,6 +2,16 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   authorize_resource class: Question
   before_action :find_question, only: %i[show show_answers]
 
+  def create
+    authorize! :create, Question
+    @question = current_user.questions.new(question_params)
+    if @question.save
+      render json: @question
+    else
+      render json: { errors: @question.errors }, status: :unprocessable_entity
+    end
+  end
+
   def index
     @questions = Question.all
     render json: @questions, each_serializer: QuestionsSerializer
@@ -17,6 +27,10 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   private
+
+  def question_params
+    params.require(:question).permit(:title, :body) #, links_attributes: %i[name url id _destroy]
+  end
 
   def find_question
     @question = Question.find(params[:id])
