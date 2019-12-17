@@ -7,11 +7,11 @@ shared_examples_for 'API Linkable' do
     end
 
     it 'returns links ' do
-      do_request(:get, api_path, params: { access_token: access_token.token }, headers: headers)
+      do_request(:get, api_path, params: request_params, headers: headers)
       expect(links.size).to eq resource_essence.links.count
     end
     it 'returns proper links ' do
-      do_request(:get, api_path, params: { access_token: access_token.token }, headers: headers)
+      do_request(:get, api_path, params: request_params, headers: headers)
       expect(links.to_json).to eq resource_essence.links.to_json
     end
   end

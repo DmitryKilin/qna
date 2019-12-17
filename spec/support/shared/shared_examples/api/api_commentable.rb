@@ -8,11 +8,11 @@ shared_examples_for 'API Commentable' do
     end
 
     it 'returns comments ' do
-      do_request(:get, api_path, params: { access_token: access_token.token }, headers: headers)
+      do_request(:get, api_path, params: request_params, headers: headers)
       expect(comments.size).to eq resource_essence.comments.count
     end
     it 'returns proper comments ' do
-      do_request(:get, api_path, params: { access_token: access_token.token }, headers: headers)
+      do_request(:get, api_path, params: request_params, headers: headers)
       expect(comments.to_json).to eq resource_essence.comments.to_json
     end
   end

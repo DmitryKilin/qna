@@ -33,7 +33,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     if current_user.author?(@question)
-      @question.delete
+      @question.destroy
       note = 'Question have been deleted!'
     else
       note = 'You can delete yours questions only!'

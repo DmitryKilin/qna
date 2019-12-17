@@ -1,5 +1,5 @@
 class Api::V1::BaseController < ApplicationController
-  before_action :doorkeeper_authorize!
+  before_action :doorkeeper_authorize!, except: %i[index show]
 
   private
 

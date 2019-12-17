@@ -10,7 +10,6 @@ describe 'Profiles API ', type: :request do
 
   describe 'GET /api/v1/profiles/me' do
     let(:api_path) { '/api/v1/profiles/me' }
-    it_behaves_like 'API Authorizable'
 
     context 'authorized ' do
       let(:me) { create(:user) }
@@ -18,7 +17,8 @@ describe 'Profiles API ', type: :request do
       let(:me_response) { json['user'] }
       let(:resource_response) { me_response }
       let(:resource_essence) { me }
-      before { get api_path, params: { access_token: access_token.token }, headers: headers }
+      let(:request_params) { { access_token: access_token.token } }
+      before { get api_path, params: request_params, headers: headers }
 
       it_behaves_like 'API Public fields visible'
       it_behaves_like 'API Private fields not visible'
@@ -26,7 +26,6 @@ describe 'Profiles API ', type: :request do
   end
   describe 'GET /api/v1/profiles' do
     let(:api_path) { '/api/v1/profiles' }
-    it_behaves_like 'API Authorizable'
 
     context 'authorized ' do
       let!(:users) { create_list(:user, 2) }
@@ -40,6 +39,7 @@ describe 'Profiles API ', type: :request do
         let(:access_token) { create(:access_token) }
         let(:resource_response) { user_in_response }
         let(:resource_essence) { users.first }
+        let(:request_params) { { access_token: access_token.token } }
 
         before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
