@@ -1,7 +1,7 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  authorize_resource class: Question
   before_action :find_question, only: %i[show show_answers update destroy]
   after_action :publish_question, only: %i[create]
+  authorize_resource class: Question
 
   def create
     @question = current_user.questions.new(question_params)
@@ -15,7 +15,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   def destroy
     authorize! :destroy, @question
     if @question.destroy
-      render json: {}, status: :ok
+      head :ok
     else
       render json: { errors: @question.errors }, status: 418
     end

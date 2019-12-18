@@ -1,14 +1,14 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  authorize_resource class: Answer
   before_action :find_question, only: %i[index create]
   before_action :find_answer, only: %i[show destroy update]
   after_action :publish_answer, only: %i[create]
+  authorize_resource class: Answer
 
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
-      render json: @answer
+      head :ok
     else
       render json: { errors: @answer.errors }, status: :unprocessable_entity
     end
