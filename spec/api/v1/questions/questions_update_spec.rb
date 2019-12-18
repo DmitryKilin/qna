@@ -11,15 +11,15 @@ describe 'Questions API #update', type: :request do
     context 'with valid params ' do
       let(:question_attributes) { attributes_for(:question) }
       let(:access_token) { create(:access_token, resource_owner_id: question.user.id) }
-      let(:request_params) { { access_token: access_token.token, id: question, question: question_attributes } }
+      let(:valid_params) { { access_token: access_token.token, id: question, question: question_attributes } }
 
       it_behaves_like 'API Authorizable'
       it 'assigns the requested question to @question' do
-        do_request(method, api_path, params: request_params, headers: headers)
+        do_request(method, api_path, params: valid_params, headers: headers)
         expect(assigns(:question)).to eq question
       end
       it 'changes question attributes' do
-        do_request(method, api_path, params: request_params, headers: headers)
+        do_request(method, api_path, params: valid_params, headers: headers)
         question.reload
 
         expect(question.title).to eq question_attributes[:title]
