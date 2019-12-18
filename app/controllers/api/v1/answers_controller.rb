@@ -8,7 +8,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
-      head :ok
+      render json: @answer
     else
       render json: { errors: @answer.errors }, status: :unprocessable_entity
     end
