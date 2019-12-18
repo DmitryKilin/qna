@@ -2,6 +2,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   authorize_resource class: Answer
   before_action :find_question, only: %i[index create]
   before_action :find_answer, only: %i[show destroy update]
+  after_action :publish_answer, only: %i[create]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -52,5 +53,21 @@ class Api::V1::AnswersController < Api::V1::BaseController
 
   def answer_params
     params.require(:answer).permit(:body, :ranked, files: [], links_attributes: %i[name url id _destroy])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    files = @answer.files.map do |file|
+      { id: file.id, url: url_for(file), name: file.filename.to_s }
+    end
+
+    links = @answer.links.map do |link|
+      { id: link.id, name: link.name, url: link.url, gist: (link.url if link.gist?) }
+    end
+
+    ActionCable.server.broadcast(
+        "answers-#{@answer.question_id}", { answer: @answer, links: links, files: files }
+    )
   end
 end
