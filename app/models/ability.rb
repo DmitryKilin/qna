@@ -16,6 +16,8 @@ class Ability
 
   def guest_abilities
     can :read, :all
+    can :me, User
+    can :search, :all
   end
 
   def admin_abilities
@@ -36,6 +38,8 @@ class Ability
     can [:vote_up, :vote_down], [Question, Answer] do |poll|
       !user.author? poll
     end
+    can [:star, :unstar], Answer, question: { user_id: user.id }
+    can :rewards, User, user: user
 
     can %i[create destroy], Link, linkable: { user_id: user.id }
   end

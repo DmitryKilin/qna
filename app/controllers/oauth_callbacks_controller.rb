@@ -1,4 +1,5 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
+
   def github
     oauth('GitHub')
   end
@@ -10,9 +11,9 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   private
 
   def oauth(provider)
-  oauth = request.env['omniauth.auth']
+    oauth = request.env['omniauth.auth']
 
-    if !oauth['info'].has_key?('email') || oauth['info']['email'].blank?
+    if !oauth['info'].key?('email') || oauth['info']['email'].blank?
       redirect_to demand_email_path
       return
     end

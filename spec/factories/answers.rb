@@ -1,10 +1,8 @@
-include ActionDispatch::TestProcess
-
 FactoryBot.define do
   sequence(:body) { |n| "answer body #{n}" }
 
   factory :answer do
-    body {generate (:body)}
+    body { generate(:body) }
     ranked { false }
     question
     user

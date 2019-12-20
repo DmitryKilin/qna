@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'Пользователь может просматривать вопрос и ответы к нему.' do
-  given(:question) {create(:question_with_answers)}
+  given(:question) { create(:question, :with_answers) }
 
   scenario 'A User can see a question and a answers on it' do
     visit question_path(question)

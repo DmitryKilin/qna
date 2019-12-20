@@ -1,4 +1,5 @@
 class OauthConfirmationsController < ApplicationController
+  skip_authorization_check
 
   def demand_email
     render "devise/oauth_confirmations/demand_email"

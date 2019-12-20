@@ -24,6 +24,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_model_serializers (0.10.10)
+      actionpack (>= 4.1, < 6.1)
+      activemodel (>= 4.1, < 6.1)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (5.2.4)
       activesupport (= 5.2.4)
       globalid (>= 0.3.6)
@@ -45,11 +50,11 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     arel (9.0.0)
-    autoprefixer-rails (9.7.2)
+    autoprefixer-rails (9.7.3)
       execjs
     aws-eventstream (1.0.3)
-    aws-partitions (1.246.0)
-    aws-sdk-core (3.82.0)
+    aws-partitions (1.251.0)
+    aws-sdk-core (3.84.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -57,8 +62,8 @@ GEM
     aws-sdk-kms (1.26.0)
       aws-sdk-core (~> 3, >= 3.71.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.57.0)
-      aws-sdk-core (~> 3, >= 3.77.0)
+    aws-sdk-s3 (1.59.0)
+      aws-sdk-core (~> 3, >= 3.83.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.1.0)
@@ -82,7 +87,10 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
+    case_transform (0.2)
+      activesupport
     childprocess (3.0.0)
+    chronic (0.10.2)
     cocoon (1.2.14)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -92,6 +100,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.5)
+    connection_pool (2.2.2)
     crass (1.0.5)
     devise (4.7.1)
       bcrypt (~> 3.0)
@@ -100,6 +109,8 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.3)
+    doorkeeper (5.1.0)
+      railties (>= 5)
     erubi (1.9.0)
     execjs (2.7.0)
     factory_bot (5.1.1)
@@ -131,6 +142,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
+    jsonapi-renderer (0.2.2)
     jwt (2.2.1)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -157,8 +169,9 @@ GEM
     multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
+    mustermann (1.0.3)
     nio4r (2.5.2)
-    nokogiri (1.10.5)
+    nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
     oauth2 (1.4.2)
       faraday (>= 0.8, < 2.0)
@@ -166,6 +179,7 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
+    oj (3.10.0)
     omniauth (1.9.0)
       hashie (>= 3.4.6, < 3.7.0)
       rack (>= 1.6.2, < 3)
@@ -181,8 +195,10 @@ GEM
     pg (1.1.4)
     popper_js (1.14.5)
     public_suffix (4.0.1)
-    puma (3.12.1)
+    puma (3.12.2)
     rack (2.0.7)
+    rack-protection (2.0.7)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.4)
@@ -217,6 +233,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
+    redis (4.1.3)
     regexp_parser (1.6.0)
     request_store (1.4.1)
       rack (>= 1.4)
@@ -268,6 +285,16 @@ GEM
       rubyzip (>= 1.2.2)
     shoulda-matchers (4.1.2)
       activesupport (>= 4.2.0)
+    sidekiq (6.0.3)
+      connection_pool (>= 2.2.2)
+      rack (>= 2.0.0)
+      rack-protection (>= 2.0.0)
+      redis (>= 4.1.0)
+    sinatra (2.0.7)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.7)
+      tilt (~> 2.0)
     skim (0.10.0)
       coffee-script
       coffee-script-source (>= 1.2.0)
@@ -319,6 +346,8 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -326,6 +355,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers (~> 0.10)
   aws-sdk-s3
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.3.1)
@@ -335,6 +365,7 @@ DEPENDENCIES
   cocoon
   coffee-rails (~> 4.2)
   devise
+  doorkeeper (= 5.1.0)
   factory_bot_rails
   gist-embed-rails
   gon
@@ -345,6 +376,7 @@ DEPENDENCIES
   letter_opener
   listen (>= 3.0.5, < 3.2)
   mini_magick
+  oj
   omniauth
   omniauth-github
   omniauth-vkontakte (~> 1.5)
@@ -355,6 +387,8 @@ DEPENDENCIES
   rspec-rails (~> 3.8)
   sass-rails (~> 5.0)
   shoulda-matchers
+  sidekiq
+  sinatra
   skim
   slim-rails
   spring
@@ -365,6 +399,7 @@ DEPENDENCIES
   valid_url
   web-console (>= 3.3.0)
   webdrivers (~> 3.0)
+  whenever
 
 RUBY VERSION
    ruby 2.6.3p62

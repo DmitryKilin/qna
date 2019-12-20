@@ -4,9 +4,9 @@ class QuestionsController < ApplicationController
 
   after_action :publish_question, only: %i[create]
 
-  include Voted
-
   authorize_resource
+
+  include Voted
 
   def index
     @questions = Question.all
@@ -33,7 +33,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     if current_user.author?(@question)
-      @question.delete
+      @question.destroy
       note = 'Question have been deleted!'
     else
       note = 'You can delete yours questions only!'

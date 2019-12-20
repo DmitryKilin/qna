@@ -44,9 +44,15 @@ gem 'image_processing', '~> 1.2'
 gem 'gon'
 gem 'omniauth'
 gem 'omniauth-github'
-# gem 'omniauth-yandex'
 gem 'omniauth-vkontakte', '~> 1.5'
 gem 'cancancan'
+gem 'doorkeeper', '= 5.1.0'
+gem 'active_model_serializers', '~> 0.10'
+gem 'oj'
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'whenever', require: false
+
 
 # UI
 gem 'jquery-rails'
