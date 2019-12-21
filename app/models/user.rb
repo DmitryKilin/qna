@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :questions, inverse_of: :user
   has_many :prizes, inverse_of: :user
   has_many :authorizations, inverse_of: :user, dependent: :destroy
+  has_many :subscriptions, inverse_of: :user, dependent: :destroy
 
 
   def author?(some_instance)

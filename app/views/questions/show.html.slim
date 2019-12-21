@@ -2,6 +2,8 @@ h1= 'Question: '
 
 .question data-question-id=@question.id
   = render 'form'
+- if can?(:create, Subscription)
+  = render 'subscriptions/subscription', resource: @question
 p ----------------------------------------
 h2= "Answers: "
 p ----------------------------------------

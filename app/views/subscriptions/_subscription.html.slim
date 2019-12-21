@@ -1,0 +1,15 @@
+.subscription
+  - if current_user.subscribed_to?(resource)
+    .link-unsubscribe
+      = link_to 'Unsubscribe',
+              subscription_path(current_user.subscriptions.where(question: resource).first),
+              remote: true,
+              method: :delete,
+              class: "btn btn-outline-primary"
+  - else
+    .link-subscribe
+      = link_to 'Subscribe',
+              question_subscriptions_path(resource),
+              remote: true,
+              method: :post,
+              class: "btn btn-outline-primary"
