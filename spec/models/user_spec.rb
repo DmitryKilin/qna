@@ -7,6 +7,8 @@ RSpec.describe User, type: :model do
   it { should have_many(:answers).class_name('Answer').inverse_of(:user) }
   it { should have_many(:prizes).inverse_of(:user) }
   it { should have_many(:authorizations).inverse_of(:user).dependent(:destroy) }
+  it { should have_many(:subscriptions).inverse_of(:user).dependent(:destroy) }
+
 
   describe '#author?' do
     let(:user) { create(:user) }

@@ -4,7 +4,8 @@ RSpec.describe Question, type: :model do
   it { should belong_to(:user).inverse_of(:questions).required }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
-  it { should have_one(:prize).dependent(:destroy)}
+  it { should have_many(:subscriptions).inverse_of(:question).dependent(:destroy) }
+  it { should have_one(:prize).dependent(:destroy) }
 
   it { should validate_presence_of :title}
   it { should validate_presence_of :body}

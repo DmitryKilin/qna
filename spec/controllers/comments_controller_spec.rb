@@ -21,11 +21,11 @@ RSpec.describe CommentsController, type: :controller do
 
         c = assigns(:comment)
         my_hash = { id: c.id, body: c.body, user_email: question.user.email, commented_resource: 'question', commented_resource_id: c.commentable_id }
-        response_gage = JSON.generate(my_hash)
+        response_page = JSON.generate(my_hash)
 
         expect(response.content_type).to eq('application/json')
         expect(response).to have_http_status(:ok)
-        expect(response.body).to eq(response_gage)
+        expect(response.body).to eq(response_page)
       end
     end
 

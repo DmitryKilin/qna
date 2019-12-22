@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: :votable do
+    resources :subscriptions, shallow: true, only: %i[create destroy]
     resource :comments, only: %i[create]
     resources :answers, only: %i[destroy create show update], shallow: true, concerns: :votable  do
       resource :comments, only: %i[create]

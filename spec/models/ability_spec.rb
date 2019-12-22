@@ -29,6 +29,7 @@ describe 'Ability' do
       it { should be_able_to :create, Question }
       it { should be_able_to :create, Answer }
       it { should be_able_to :create, Comment }
+      it { should be_able_to :create, Subscription }
     end
     describe ' Ability update.' do
       it { should be_able_to :update, create(:question, user: user), user: user }
@@ -52,6 +53,10 @@ describe 'Ability' do
       it { should_not be_able_to :destroy, create(:question) }
       it { should be_able_to :destroy, create(:answer, user: user) }
       it { should_not be_able_to :destroy, create(:answer) }
+
+      it { should be_able_to :destroy, create(:subscription, user: user) }
+      it { should_not be_able_to :destroy, create(:subscription) }
+
       it {
         should be_able_to :destroy, create(:comment, :comment_question, user: user),
                         user: user
