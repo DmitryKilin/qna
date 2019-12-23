@@ -3,11 +3,10 @@ class AnswersController < ApplicationController
   before_action :find_question, only: %i[new create]
   before_action :find_answer, only: %i[show destroy update star unstar]
 
-  after_action :publish_answer, only: %i[create]
+  after_action :publish_answer, :perfom_subscription, only: %i[create]
 
   authorize_resource
   include Voted
-
 
   def destroy
     @answer.delete if current_user.author?(@answer)
@@ -37,7 +36,7 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit( :body, :ranked, files: [], links_attributes: [:name, :url, :id, :_destroy])
+    params.require(:answer).permit(:body, :ranked, files: [], links_attributes: %i[name url id _destroy])
   end
 
   def find_question
@@ -46,6 +45,10 @@ class AnswersController < ApplicationController
 
   def find_answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def perfom_subscription
+    SubscriptionJob.perform_later(@answer)
   end
 
   def publish_answer
@@ -60,7 +63,7 @@ class AnswersController < ApplicationController
     end
 
     ActionCable.server.broadcast(
-        "answers-#{@answer.question_id}", { answer: @answer, links: links, files: files }
+      "answers-#{@answer.question_id}", answer: @answer, links: links, files: files
     )
   end
 end
