@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :prizes, inverse_of: :user
   has_many :authorizations, inverse_of: :user, dependent: :destroy
   has_many :subscriptions, inverse_of: :user, dependent: :destroy
+  has_many :subscribed_questions, through: :subscriptions, source: :question
+
 
 
   def author?(some_instance)
@@ -26,5 +28,9 @@ class User < ApplicationRecord
 
   def create_authorization!(auth)
     self.authorizations.create!(provider: auth.provider, uid: auth.uid)
+  end
+
+  def subscribed_to?(question)
+    subscribed_questions.exists?(question.id)
   end
 end
