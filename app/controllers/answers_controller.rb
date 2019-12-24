@@ -3,7 +3,7 @@ class AnswersController < ApplicationController
   before_action :find_question, only: %i[new create]
   before_action :find_answer, only: %i[show destroy update star unstar]
 
-  after_action :publish_answer, :perfom_subscription, only: %i[create]
+  after_action :publish_answer, only: %i[create]
 
   authorize_resource
   include Voted
@@ -45,10 +45,6 @@ class AnswersController < ApplicationController
 
   def find_answer
     @answer = Answer.with_attached_files.find(params[:id])
-  end
-
-  def perfom_subscription
-    SubscriptionJob.perform_later(@answer)
   end
 
   def publish_answer

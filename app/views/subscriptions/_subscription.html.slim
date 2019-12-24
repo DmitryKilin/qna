@@ -2,7 +2,7 @@
   - if current_user.subscribed_to?(resource)
     .link-unsubscribe
       = link_to 'Unsubscribe',
-              subscription_path(current_user.subscriptions.where(question: resource).first),
+              subscription_path(current_user.subscription_for(resource)),
               remote: true,
               method: :delete,
               class: "btn btn-outline-primary"

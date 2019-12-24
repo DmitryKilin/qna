@@ -44,13 +44,6 @@ RSpec.describe AnswersController, type: :controller do
         post :create, params: { question_id: question.id, answer: attributes_for(:answer) }, format: :js
         expect(response).to render_template :create
       end
-
-      it 'perfoms the subscription job' do
-        #Нужно ли проверять вызов SubscriptionJob в контроллере  и как передать в with(Answer)
-        #реально созданный объект .answer?
-        expect(SubscriptionJob).to receive(:perform_later).with(Answer)
-        post :create, params: { question_id: question.id, answer: answer_attributes }, format: :js
-      end
     end
 
     context 'with invalid attributes' do

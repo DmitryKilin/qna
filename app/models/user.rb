@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:github, :vkontakte]
+         :omniauthable, omniauth_providers: %i[github vkontakte]
 
   has_many :answers, inverse_of: :user
   has_many :questions, inverse_of: :user
@@ -12,10 +12,8 @@ class User < ApplicationRecord
   has_many :subscriptions, inverse_of: :user, dependent: :destroy
   has_many :subscribed_questions, through: :subscriptions, source: :question
 
-
-
   def author?(some_instance)
-    some_instance&.user_id == self.id
+    some_instance&.user_id == id
   end
 
   def attachment_owner?(file)
@@ -27,10 +25,14 @@ class User < ApplicationRecord
   end
 
   def create_authorization!(auth)
-    self.authorizations.create!(provider: auth.provider, uid: auth.uid)
+    authorizations.create!(provider: auth.provider, uid: auth.uid)
   end
 
   def subscribed_to?(question)
     subscribed_questions.exists?(question.id)
+  end
+
+  def subscription_for(question)
+    subscriptions.where(question: question).first
   end
 end

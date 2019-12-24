@@ -15,6 +15,8 @@ class Answer < ApplicationRecord
   has_many_attached :files
   accepts_nested_attributes_for :links, reject_if: :all_blank
 
+  after_create :perfom_subscription
+
   def rank
     prev_ranked = question.answers.ranked.first
     prize = question.prize
@@ -43,5 +45,9 @@ class Answer < ApplicationRecord
     if ranked_changed?(from: false, to: true) && question.answers.ranked.count == 1
       errors.add(:ranked, 'Ranked answer must be only one per question.')
     end
+  end
+
+  def perfom_subscription
+    SubscriptionJob.perform_later(self)
   end
 end

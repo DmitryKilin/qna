@@ -73,6 +73,14 @@ RSpec.describe Answer, type: :model do
       expect(prize.user).to be_nil
     end
   end
+  describe '#perfom_subscription' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user)}
+    it 'place a new job sending emails to subscribed users. ' do
+      expect(SubscriptionJob).to receive(:perform_later).with(Answer)
+      Answer.create(question: question, user: user, body: 'New answer')
+    end
+  end
 
   it_behaves_like 'votable'
 end
