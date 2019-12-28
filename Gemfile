@@ -49,10 +49,16 @@ gem 'cancancan'
 gem 'doorkeeper', '= 5.1.0'
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
+
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
 
+gem "mysql2"
+gem "thinking-sphinx"
+
+#gem 'mysql2', '0.4.9'
+#gem 'thinking-sphinx', '4.0.0'
 
 # UI
 gem 'jquery-rails'
