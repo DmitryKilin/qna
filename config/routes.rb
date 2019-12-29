@@ -55,6 +55,11 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :search do
+    get :get_search, to: 'search#get_search'
+    get :proceed, to: 'search#proceed'
+  end
+
   mount ActionCable.server => '/cable'
 
 end

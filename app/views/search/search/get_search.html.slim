@@ -1,0 +1,27 @@
+= form_with(url: search_proceed_path, method: "get") do
+  .form-group
+    = label_tag(:q, "Search:")
+    = text_field_tag(:q)
+    .form-check
+      input class="form-check-input" type="checkbox" value="Question" id="QuestionCheck"
+      label class="form-check-label" for="QuestionCheck"
+        'Question
+    .form-check
+      input class="form-check-input" type="checkbox" value="Answer" id="AnswerCheck"
+      label class="form-check-label" for="AnswerCheck"
+        'Answer
+    .form-check
+      input class="form-check-input" type="checkbox" value="Comment" id="CommentCheck"
+      label class="form-check-label" for="CommentCheck"
+        'Comment
+    .form-check
+      input class="form-check-input" type="checkbox" value="Usertion" id="UserCheck"
+      label class="form-check-label" for="UserCheck"
+        'User
+  = submit_tag("Search", class: "btn btn-primary")
+.results
+  h3 Results:
+  ul#question_entries
+  ul#answer_entries
+  ul#comment_entries
+  ul#user_entries

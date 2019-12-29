@@ -57,9 +57,6 @@ gem 'whenever', require: false
 gem "mysql2"
 gem "thinking-sphinx"
 
-#gem 'mysql2', '0.4.9'
-#gem 'thinking-sphinx', '4.0.0'
-
 # UI
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.3.1'

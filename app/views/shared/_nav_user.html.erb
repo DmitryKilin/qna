@@ -1,5 +1,6 @@
 <nav class="navbar navbar-dark bg-dark justify-content-start">
   <%= link_to 'Questions and Answers' , root_path, class: "navbar-brand mr-auto" %>
+  <%= link_to 'Search', search_get_search_path, class: "nav-link" %>
   <% if user_signed_in? %>
     <%= link_to 'Rewards', rewards_user_path(current_user),  class: "nav-link" %>
     <%= current_user&.email %>
