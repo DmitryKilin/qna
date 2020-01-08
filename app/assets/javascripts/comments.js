@@ -1,7 +1,6 @@
 $(document).on('turbolinks:load', function () {
         $('form.new-comment')
             .on('ajax:error', function (e) {
-                // var errors = e.detail[0];
                 var $divErrors = $('.notifications');
                 var errorBanner = JST ['templates/error']({errors: e.detail[0]});
 

@@ -22,12 +22,7 @@ class Search::SearchController < ApplicationController
 end
 
 # TO_DO
-#
-#  реализовать подстаноовку соответствующего пути к ресурсу во вьюхе show для comments_controller стр. 4
-#  используя методы контроллера для поиска ресурса. Написать спеки.
-#
-#  написать спеки для метода delete для comments_controller, реализовать удаление комметария автором.
-# 
+
 # В search.js написпть код вывода результата поиска в соответствующих div-ах:
 # {"user":{"id":"!USER SERIALIZER!"} в .user_entries;
 # {"answer":{"id":"!ANSWER SERIALIZER!"}} в .answer_entries
