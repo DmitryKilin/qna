@@ -4,7 +4,11 @@ class Search::SearchController < ApplicationController
 
   def proceed
     @search_result = Services::Finding.new.call(search_params)
-    xhr = @search_result.empty? ? nil : array_of_serialized(@search_result)
+    if @search_result.nil?
+      xhr = nil
+    else
+      xhr = @search_result.empty? ? nil : array_of_serialized(@search_result)
+    end
     respond_to do |format|
       format.json { render json: xhr }
     end
