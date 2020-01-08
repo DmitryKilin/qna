@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+  before_action :find_comment, only: %i[show destroy]
   after_action :publish_comment, only: :create
 
   authorize_resource
@@ -13,10 +14,26 @@ class CommentsController < ApplicationController
     end
   end
 
+  def destroy
+    if current_user.author?(@comment)
+      @comment.destroy
+      note = 'Question have been deleted!'
+    else
+      note = 'You can delete yours questions only!'
+    end
+    redirect_to root_path, notice: note
+  end
+
+  def show; end
+
   private
 
   def comment_params
     params.require(:comment).permit(:body)
+  end
+
+  def find_comment
+    @comment = Comment.find(params[:id])
   end
 
   def resource_id

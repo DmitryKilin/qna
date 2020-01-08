@@ -5,12 +5,14 @@ feature 'Пользователь может просматривать стра
   scenario 'A quest can see a search page' do
     visit search_get_search_path
 
-    expect(page).to have_link 'Search'
-    expect(page).to have_field 'Search:'
+    within('form#search') do
+      expect(page).to have_field 'Search'
+      expect(page).to have_field 'Search:'
+    end
 
-    expect(page).to have_field 'Question'
-    expect(page).to have_field 'Answer'
-    expect(page).to have_field 'Comment'
-    expect(page).to have_field 'User'
+    expect(page).to have_field 'question_flag'
+    expect(page).to have_field 'answer_flag'
+    expect(page).to have_field 'comment_flag'
+    expect(page).to have_field 'user_flag'
   end
 end

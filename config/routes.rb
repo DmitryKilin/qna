@@ -32,6 +32,8 @@ Rails.application.routes.draw do
     get :rewards, on: :member
   end
 
+  resources :comments, only: %i[show destroy]
+
   resources :questions, concerns: :votable do
     resources :subscriptions, shallow: true, only: %i[create destroy]
     resource :comments, only: %i[create]

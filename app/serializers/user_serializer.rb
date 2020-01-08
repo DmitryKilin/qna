@@ -1,3 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :admin, :created_at, :updated_at
+  include Rails.application.routes.url_helpers
+
+  attribute(:link) { rewards_user_path(object) }
 end

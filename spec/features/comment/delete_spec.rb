@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-feature 'Автор может удалить свой ответ, но не может удалить чужой ответ.' do
-  given(:answer) { create(:answer) }
+feature 'Автор может удалить свой комментарий, но не может удалить чужой комментарий.' do
+  given(:comment) { create(:comment, :comment_question) }
   given(:not_an_author) { create(:user, email: 'not_an_author@test.com', password: '12345678') }
 
   context  'Authorised author' do
 
     scenario  "can see the delete button and delete answer." do
-      sign_in(answer.user)
-      visit answer_path(answer)
+      sign_in(comment.user)
+      visit comment_path(comment)
 
       expect(page).to have_link('Delete')
     end
