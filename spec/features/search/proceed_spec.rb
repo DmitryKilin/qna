@@ -23,7 +23,6 @@ feature 'Guests and users can search a phrase in Questions, Answers, Users and C
         within '#question' do
           expect(page).to have_content question2.id
           expect(page).to_not have_content question1.id
-
         end
       end
     end

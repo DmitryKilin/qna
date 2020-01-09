@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Автор может удалить свой комментарий, но не может удалить чужой комментарий.' do
+feature 'An author can delete a comment he own. ' do
   given(:comment) { create(:comment, :comment_question) }
   given(:not_an_author) { create(:user, email: 'not_an_author@test.com', password: '12345678') }
 

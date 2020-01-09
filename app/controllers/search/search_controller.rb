@@ -3,15 +3,8 @@ class Search::SearchController < ApplicationController
   def get_search; end
 
   def proceed
-    @search_result = Services::Finding.new.call(search_params)
-    if @search_result.nil?
-      xhr = nil
-    else
-      xhr = @search_result.empty? ? nil : array_of_serialized(@search_result)
-    end
-    respond_to do |format|
-      format.json { render json: xhr }
-    end
+    search_result = Services::Finding.new.call(search_params)
+    render json: array_of_serialized(search_result).to_json
   end
 
   private
@@ -25,9 +18,3 @@ class Search::SearchController < ApplicationController
   end
 end
 
-# TO_DO
-
-# В search.js написпть код вывода результата поиска в соответствующих div-ах:
-# {"user":{"id":"!USER SERIALIZER!"} в .user_entries;
-# {"answer":{"id":"!ANSWER SERIALIZER!"}} в .answer_entries
-# и т.д.

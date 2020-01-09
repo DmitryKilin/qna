@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
   def destroy
     if current_user.author?(@comment)
       @comment.destroy
-      note = 'Question have been deleted!'
+      note = 'Comment have been deleted!'
     else
       note = 'You can delete yours questions only!'
     end

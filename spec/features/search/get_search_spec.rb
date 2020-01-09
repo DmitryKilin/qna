@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Пользователь может просматривать страницу поиска' do
+feature 'A user can see the search page' do
 
   scenario 'A quest can see a search page' do
     visit search_get_search_path
