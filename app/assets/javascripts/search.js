@@ -8,7 +8,8 @@ $(document).on('turbolinks:load', function(){
             for (var i = 0; i < result_length; i++) {
                 index = Object.keys(search_result[i])[0];
                 elementId = 'ul#' + index;
-                link = search_result[i][index].link
+                link = search_result[i][index].link;
+                label = search_result[i][index].label;
                 elementlink = createLiTag(link);
                 $(elementId).append(elementlink);
             }
@@ -17,7 +18,7 @@ $(document).on('turbolinks:load', function(){
 });
 
 function createLiTag(link) {
-    return '<li><a href="' + link +'" target="_blank">'+ link + '</a></li>'
+    return '<li><a href="' + link +'" target="_blank">'+ label + '</a></li>'
 }
 
 function clearUlElements() {
