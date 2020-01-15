@@ -11,7 +11,7 @@ require "capistrano/sidekiq"
 require 'thinking_sphinx/capistrano'
 require 'whenever/capistrano'
 require 'capistrano3/unicorn'
-require 'capistrano/sidekiq/monit'
+#require 'capistrano/sidekiq/monit'
 
 
 # Load the SCM plugin appropriate to your project:
