@@ -9,7 +9,7 @@ set :deploy_to, "/home/deployer/qna"
 set :deploy_user, 'deployer'
 
 # Sidekiq service defaults
-set :sidekiq_pid, File.join(:deploy_to, 'current', 'tmp', 'pids', 'sidekiq.pid')
+set :sidekiq_pid, File.join(:deploy_to.to_s, 'current', 'tmp', 'pids', 'sidekiq.pid')
 set :init_system, :systemd
 set :service_unit_name, "sidekiq.service"
 
