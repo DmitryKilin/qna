@@ -1,52 +1,53 @@
-div *{ 'data-answer-id': answer.id, class: "answer-#{answer.id}" }
-  p
-    -if answer.ranked?
-      -if answer.question.prize&.reward.attached?
-        = image_tag answer.question.prize.reward.variant(resize: "32x32"), alt: "Награда!", id: "img-reward"
-      -else
-        = image_tag( "star.png", height: 40, alt: 'star', id: "img-reward" )
-    = answer.body
-    .poll
-      =render 'votes/vote', votable_model: answer
-    .links
-      = render partial: '/links/links', object: answer, as: "item"
-
-    - if answer.files.attached?
-      - answer.files.each do |file|
-        div class='attachment-#{file.id}'
-          = link_to file.filename.to_s, url_for(file)
-          = link_to 'Delete file', delete_file_path(file), method: :delete, class: "btn btn-outline-secondary", remote: true
-
-    -if current_user&.author?(answer.question)
-      - if answer.ranked?
-        = link_to 'Unstar', unstar_answer_path(answer), class: 'btn btn-outline-secondary button-star', method: :patch, remote: true
-      - else
-        = link_to '🌟 Star', star_answer_path(answer), class: 'btn btn-outline-secondary button-star', method: :patch, remote: true
-
-  - if current_user&.author?(answer)
+- cache answer do
+  div *{ 'data-answer-id': answer.id, class: "answer-#{answer.id}" }
     p
-      = link_to 'Edit', '#', class: 'edit-answer-link', data: {answer_id: answer.id} if current_user&.author?(answer)
-      = " | "
-      = link_to 'Delete', answer , method: :delete, class: 'delete-answer-link', data: {answer_id: answer.id}, remote: true
+      -if answer.ranked?
+        -if answer.question.prize&.reward.attached?
+          = image_tag answer.question.prize.reward.variant(resize: "32x32"), alt: "Награда!", id: "img-reward"
+        -else
+          = image_tag( "star.png", height: 40, alt: 'star', id: "img-reward" )
+      = answer.body
+      .poll
+        =render 'votes/vote', votable_model: answer
+      .links
+        = render partial: '/links/links', object: answer, as: "item"
+
+      - if answer.files.attached?
+        - answer.files.each do |file|
+          div class='attachment-#{file.id}'
+            = link_to file.filename.to_s, url_for(file)
+            = link_to 'Delete file', delete_file_path(file), method: :delete, class: "btn btn-outline-secondary", remote: true
+
+      -if current_user&.author?(answer.question)
+        - if answer.ranked?
+          = link_to 'Unstar', unstar_answer_path(answer), class: 'btn btn-outline-secondary button-star', method: :patch, remote: true
+        - else
+          = link_to '🌟 Star', star_answer_path(answer), class: 'btn btn-outline-secondary button-star', method: :patch, remote: true
+
+    - if current_user&.author?(answer)
+      p
+        = link_to 'Edit', '#', class: 'edit-answer-link', data: {answer_id: answer.id} if current_user&.author?(answer)
+        = " | "
+        = link_to 'Delete', answer , method: :delete, class: 'delete-answer-link', data: {answer_id: answer.id}, remote: true
 
 
-    = form_with model: answer, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |f|
-      .form-group
-        = f.label :body
-        = f.text_area :body, class: "form-control"
-      .form-group
-        = f.label :files
-        = f.file_field :files, class: "btn btn-outline-primary", multiple: true, direct_upload: true
-      #links
-        = f.fields_for :links do |link|
-          = render 'links/link_cocoon', f: link
-        .add-link
-          = link_to_add_association 'Add Link', f, :links, partial: 'links/link_cocoon'
-      =
-      = f.submit 'Save', class: "btn btn-outline-primary"
+      = form_with model: answer, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |f|
+        .form-group
+          = f.label :body
+          = f.text_area :body, class: "form-control"
+        .form-group
+          = f.label :files
+          = f.file_field :files, class: "btn btn-outline-primary", multiple: true, direct_upload: true
+        #links
+          = f.fields_for :links do |link|
+            = render 'links/link_cocoon', f: link
+          .add-link
+            = link_to_add_association 'Add Link', f, :links, partial: 'links/link_cocoon'
+        =
+        = f.submit 'Save', class: "btn btn-outline-primary"
 
-  .comments
-    h3= 'Comments: '
-    = render 'comments/form', resource: answer
+    .comments
+      h3= 'Comments: '
+      = render 'comments/form', resource: answer
 
-  p ----------------------------------------
+    p ----------------------------------------

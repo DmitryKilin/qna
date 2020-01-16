@@ -1,26 +1,27 @@
-h1= 'Question: '
-
 - if can?(:create, Subscription)
   = render 'subscriptions/subscription', resource: @question
-.question data-question-id=@question.id
-  = render 'form'
-p ----------------------------------------
-h2= "Answers: "
-p ----------------------------------------
-.answers
-  = render @question.answers.order(ranked: :desc)
 
-- if user_signed_in?
-  h2= "New Answer: "
+- cache @question do
+  h1= 'Question: '
+  .question data-question-id=@question.id
+    = render 'form'
+  p ----------------------------------------
+  h2= "Answers: "
+  p ----------------------------------------
+  .answers
+    = render @question.answers.order(ranked: :desc)
 
-  = form_with model: [ @question, @answer ], class: "answer-form" do |f|
-    .form-group
-      = f.label :body
-      = f.text_area :body, class: "form-control"
-    .form-group
-      = f.label :files
-      = f.file_field :files, class: "btn btn-outline-primary", multiple: true
-    #links
-      =render 'links/link', f: f
-    = f.submit 'Answer', class: "btn btn-outline-primary"
+  - if user_signed_in?
+    h2= "New Answer: "
+
+    = form_with model: [ @question, @answer ], class: "answer-form" do |f|
+      .form-group
+        = f.label :body
+        = f.text_area :body, class: "form-control"
+      .form-group
+        = f.label :files
+        = f.file_field :files, class: "btn btn-outline-primary", multiple: true
+      #links
+        =render 'links/link', f: f
+      = f.submit 'Answer', class: "btn btn-outline-primary"
 

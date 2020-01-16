@@ -1,6 +1,7 @@
-h1= 'Questions list'
-.questions
-  = render @questions
+-cache cache_index_for :question do
+  h1= 'Questions list'
+  .questions
+    = render @questions
 
--if can?(:create, Question)
-  p= link_to 'Ask question', new_question_path
+  -if can?(:create, Question)
+    p= link_to 'Ask', new_question_path

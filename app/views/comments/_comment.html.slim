@@ -1,4 +1,5 @@
-div class="comment" id="comment-#{comment.id}"
-  p =comment.body
-  p.small
-    =comment.user.email
+- cache comment do
+  div class="comment" id="comment-#{comment.id}"
+    p =comment.body
+    p.small
+      =comment.user.email
